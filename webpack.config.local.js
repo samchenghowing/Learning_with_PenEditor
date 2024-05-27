@@ -122,6 +122,11 @@ module.exports = {
 				],
 			},
 			{
+				test: /\.mjs$/,
+				include: /node_modules/,
+				type: 'javascript/auto'
+			},	
+			{
 				test: /\.(webp|png|jpe?g|gif|svg|ttf|woff|eot)(\?.*)?$/,
 				loader: "file-loader",
 				options: {

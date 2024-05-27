@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import { saveAs } from "file-saver";
-import Tooltip from "react-tooltip-lite";
+import { Tooltip } from 'react-tooltip'
 import init from "./init";
 
 import "./bulma.min.css";
@@ -112,21 +112,22 @@ export default () => {
 				<div class="nav center" style={{ paddingLeft: 20, width: 240 }}>
 					<img style={{ height: 36 }} src={logo} alt="" />
 					<div style={{ width: 40 }}></div>
-					<Tooltip content="JS Editor">
+					<a data-tooltip-id="editor-tooltip" data-tooltip-content="JS Editor" data-tooltip-place="top">
 						<div class={mode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("js")}>
 							<IconJavascript></IconJavascript>
 						</div>
-					</Tooltip>
-					<Tooltip content="Html Editor">
+					</a>
+					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Html Editor" data-tooltip-place="top">
 						<div class={mode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("html")}>
 							<IconHtml></IconHtml>
 						</div>
-					</Tooltip>
-					<Tooltip content="Css Editor">
+					</a>
+					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Css Editor" data-tooltip-place="top">
 						<div class={mode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setMode("css")}>
 							<IconCss></IconCss>
 						</div>
-					</Tooltip>
+					</a>
+					<Tooltip id="editor-tooltip" style={{ zIndex: 401 }}/>
 				</div>
 				<div class="tool center" style={{ flex: 1 }}>
 					<input
@@ -154,12 +155,12 @@ export default () => {
 					</label>
 				</div>
 				<div class="menu" style={{ flex: 1 }}>
-					<Tooltip content="Save as html file">
+					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Save as html file" data-tooltip-place="top">
 						<div class="tool-icon" onClick={onDownload}>
 							<IconSave></IconSave>
 						</div>
-					</Tooltip>
-					<Tooltip content="Format code">
+					</a>
+					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Format code" data-tooltip-place="top">
 						<div
 							class="tool-icon"
 							onClick={() => {
@@ -169,14 +170,17 @@ export default () => {
 							}}>
 							<IconFormat></IconFormat>
 						</div>
-					</Tooltip>
-					<Tooltip content="Run code">
+					</a>
+					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Run code" data-tooltip-place="top">
 						<div class="tool-icon" onClick={onRun}>
 							<IconRun></IconRun>
 						</div>
-					</Tooltip>
+					</a>
+					<Tooltip id="menu-tooltip" style={{ zIndex: 401 }}/>
 				</div>
 			</div>
+
+
 			<div className="runjs__editor">
 				<div id="html-wrap" style={{ visibility: mode == "html" ? "visible" : "hidden" }}>
 					<textarea class="form-control" id="html"></textarea>
@@ -188,9 +192,11 @@ export default () => {
 					<textarea class="form-control" id="js"></textarea>
 				</div>
 			</div>
+
 			<div className="runjs__preview">
 				<iframe onLoad={onLoad} id="preview" src="./static/view.html" seamless width="100%" height="100%"></iframe>
 			</div>
+
 			<div className="runjs__console" id="console"></div>
 		</div>
 	);

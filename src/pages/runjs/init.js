@@ -16,12 +16,10 @@ export default {
     p{
         color:rgba(255,255,255,0.75);
     }`,
-	html: `<div id="root"></div>`,
+	html: `<div id="app"></div>`,
 	javascript: `function App() {
         console.log('Pen Editor');
         console.info('a simple code editor');
-        console.warn('a simple code editor');
-        console.error('a simple code editor');
         return (
             <div className="blend">
                 <h3>Pen Editor</h3>
@@ -29,6 +27,8 @@ export default {
             </div>
         );
     }
-    ReactDOM.render(<App />, document.getElementById("root"));
+    const container = document.getElementById('app');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App tab="home" />);
 `,
 };

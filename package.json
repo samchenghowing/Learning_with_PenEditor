@@ -1,5 +1,5 @@
 {
-	"name": "chrome_plugin",
+	"name": "pen_editor",
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
@@ -33,8 +33,6 @@
 		"mini-css-extract-plugin": "^0.9.0",
 		"optimize-css-assets-webpack-plugin": "^5.0.3",
 		"prettier": "^2.2.1",
-		"react-count-to": "^0.12.0",
-		"react-hot-loader": "^4.12.20",
 		"style-loader": "^0.23.1",
 		"thread-loader": "^2.1.3",
 		"webpack": "^4.39.1",
@@ -49,11 +47,11 @@
 		"core-js": "^3.1.4",
 		"file-saver": "^2.0.5",
 		"jszip": "^3.6.0",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
 		"react-github-btn": "^1.2.0",
 		"react-github-button": "^0.1.11",
-		"react-tooltip-lite": "^1.12.0",
+		"react-tooltip": "^5.26.4",
 		"styled-components": "^5.2.3"
 	},
 	"description": ""
