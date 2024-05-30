@@ -87,23 +87,29 @@ export default () => {
 	}, [isAuto]);
 
 	useEffect(() => {
-		window.addEventListener("message", function (data) {
-			if (data.data && ["log", "error", "info",'warn'].includes(data.data.type)) {
+		if (staticRef.current.js == null && staticRef.current.html == null && staticRef.current.css == null) {
+			staticRef.current.js = initCodeEditor(document.getElementById("js"), "javascript", init.javascript, onAutoRun);
+			staticRef.current.html = initCodeEditor(document.getElementById("html"), "htmlmixed", init.html, onAutoRun);
+			staticRef.current.css = initCodeEditor(document.getElementById("css"), "css", init.css, onAutoRun);
+			onFormat("js");
+			onFormat("css");
+			onFormat("html");
+			onRun();
+		}
+
+		function showMessage(data) {
+			if (data.data && ["log", "error", "info", 'warn'].includes(data.data.type)) {
 				let console = document.getElementById("console");
 				console.appendChild(createNode(data.data.data));
 				console.scrollTop = console.scrollHeight;
 			}
-		});
+		}
+		window.addEventListener("message", showMessage);
 
-		staticRef.current.js = initCodeEditor(document.getElementById("js"), "javascript", init.javascript, onAutoRun);
-		staticRef.current.html = initCodeEditor(document.getElementById("html"), "htmlmixed", init.html, onAutoRun);
-		staticRef.current.css = initCodeEditor(document.getElementById("css"), "css", init.css, onAutoRun);
-
-		onFormat("js");
-		onFormat("css");
-		onFormat("html");
-
-		onRun();
+		// https://stackoverflow.com/questions/71795406/react-useeffect-cleanup-for-event-listener
+		return () => {
+			window.removeEventListener("message", showMessage);
+		}
 	}, []);
 
 	return (
@@ -176,10 +182,9 @@ export default () => {
 							<IconRun></IconRun>
 						</div>
 					</a>
-					<Tooltip id="menu-tooltip" style={{ zIndex: 401 }}/>
+					<Tooltip id="menu-tooltip" style={{ zIndex: 401 }} />
 				</div>
 			</div>
-
 
 			<div className="runjs__editor">
 				<div id="html-wrap" style={{ visibility: mode == "html" ? "visible" : "hidden" }}>
