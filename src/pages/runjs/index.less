@@ -5,6 +5,7 @@
 	display: flex;
 	align-items: center;
 }
+
 input {
 	background: #94a0ad;
 	border: none;
@@ -13,9 +14,11 @@ input {
 	padding: 3px 10px;
 	color: #fff;
 }
+
 input:focus {
 	outline: none;
 }
+
 .tool-icon {
 	color: rgba(255, 255, 255, 0.75);
 	width: 32px;
@@ -26,9 +29,11 @@ input:focus {
 	cursor: pointer;
 	align-items: center;
 	justify-content: center;
+
 	&.selected {
 		background: #535a63;
 	}
+
 	&:hover {
 		background: #535a63;
 	}
@@ -38,9 +43,11 @@ input:focus {
 .cm-s-material.CodeMirror {
 	background: @cardColor !important;
 }
+
 .cm-s-material.CodeMirror {
 	border-radius: 8px;
 }
+
 .checkbox {
 	margin-left: 20px;
 	display: flex;
@@ -60,6 +67,7 @@ input:focus {
 	left: 0;
 	right: 0;
 	bottom: 0;
+
 	&__header {
 		position: absolute;
 		top: 10px;
@@ -70,12 +78,14 @@ input:focus {
 		display: flex;
 		align-items: center;
 		background: @cardColor;
+
 		.menu {
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
 		}
 	}
+
 	&__editor {
 		position: absolute;
 		top: 62px;
@@ -84,7 +94,8 @@ input:focus {
 		width: 650px;
 		border-radius: 8px;
 		background: @cardColor;
-		& > div {
+
+		&>div {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -92,6 +103,7 @@ input:focus {
 			bottom: 0;
 		}
 	}
+
 	&__preview {
 		position: absolute;
 		top: 62px;
@@ -101,6 +113,7 @@ input:focus {
 		border-radius: 8px;
 		background: @cardColor;
 	}
+
 	&__console {
 		position: absolute;
 		right: 10px;
@@ -110,6 +123,7 @@ input:focus {
 		border-radius: 8px;
 		overflow-y: auto;
 		background: @cardColor;
+
 		.log-wrap {
 			min-height: 28px;
 			display: flex;
@@ -117,22 +131,27 @@ input:focus {
 			color: rgba(255, 255, 255, 0.4);
 			margin: 5px 10px;
 			border-bottom: 1px solid #454e58;
+
 			.log-str {
 				flex: 1;
 			}
+
 			.log-type {
 				&__warn {
 					.log-set();
 					color: orange;
 				}
+
 				&__log {
 					.log-set();
 					color: #57b99d;
 				}
+
 				&__info {
 					.log-set();
 					color: #5caed6;
 				}
+
 				&__error {
 					.log-set();
 					color: #e0606f;

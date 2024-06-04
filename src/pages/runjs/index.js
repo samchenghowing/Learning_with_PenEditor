@@ -133,7 +133,7 @@ export default () => {
 							<IconCss></IconCss>
 						</div>
 					</a>
-					<Tooltip id="editor-tooltip" style={{ zIndex: 401 }}/>
+					<Tooltip id="editor-tooltip" style={{ zIndex: 401 }} />
 				</div>
 				<div class="tool center" style={{ flex: 1 }}>
 					<input
