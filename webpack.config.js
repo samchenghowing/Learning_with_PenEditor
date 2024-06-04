@@ -42,7 +42,7 @@ plugins = plugins.concat([
 		],
 	}),
 	new HtmlWebpackPlugin({
-		chunks:['app'],
+		chunks: ['app'],
 		title: "PenEditor",
 		favicon: path.resolve("favicon.ico"),
 		template: "./src/template.html",
@@ -54,7 +54,7 @@ module.exports = {
 		app: "./src/index.js",
 	},
 	mode: process.env.NODE_ENV,
-	
+
 	output: {
 		filename: "modules/[name].[hash].js",
 		publicPath: "/",
@@ -64,6 +64,7 @@ module.exports = {
 	devServer: {
 		host: "127.0.0.1",
 		port: 8099,
+		historyApiFallback: true,
 		static: {
 			directory: "./dist",
 		},
@@ -115,7 +116,7 @@ module.exports = {
 				test: /\.mjs$/,
 				include: /node_modules/,
 				type: 'javascript/auto'
-			},	
+			},
 			{
 				test: /\.(webp|png|jpe?g|gif|svg|ttf|woff|eot)(\?.*)?$/,
 				loader: "file-loader",
