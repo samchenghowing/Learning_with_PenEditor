@@ -5,11 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserJSPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 let plugins = [];
 
@@ -21,7 +17,6 @@ function assetsPath(_path) {
 }
 
 if (process.env.NODE_ENV == "production") {
-	//需要做打包分析时、用个插件
 	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
 	//plugins = [new CleanWebpackPlugin()];
 } else if (process.env.NODE_ENV == "development") {
@@ -34,18 +29,18 @@ plugins = plugins.concat([
 		filename: "styles/[name].[hash].css",
 		chunkFilename: "styles/[id].[hash].css",
 	}),
-	new CopyWebpackPlugin([
-		{
-			from: "./favicon.ico",
-			to: "favicon.ico",
-		},
-	]),
-	new CopyWebpackPlugin([
-		{
-			from: "static",
-			to: "static",
-		},
-	]),
+	new CopyWebpackPlugin({
+		patterns: [
+			{
+				from: "./favicon.ico",
+				to: "favicon.ico",
+			},
+			{
+				from: "static",
+				to: "static",
+			},
+		],
+	}),
 	new HtmlWebpackPlugin({
 		chunks:['app'],
 		title: "PenEditor",
@@ -69,17 +64,12 @@ module.exports = {
 	devServer: {
 		host: "127.0.0.1",
 		port: 8099,
-		contentBase: "./dist",
+		static: {
+			directory: "./dist",
+		},
 	},
 	resolve: {
 		extensions: [".js", ".json", ".jsx", ".less", ".css"],
-	},
-	optimization: {
-		minimizer: process.env.NODE_ENV == "production" ? [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})] : [],
-		splitChunks: {
-			chunks: "all",
-			minChunks: 2,
-		},
 	},
 	module: {
 		rules: [
