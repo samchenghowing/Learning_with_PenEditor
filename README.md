@@ -1,15 +1,16 @@
 # Pen Editor
 
-[![GitHub code size](https://img.shields.io/github/languages/code-size/jojowwbb/PenEditor)](https://github.com/jojowwbb/PenCode)  [![GitHub license](https://img.shields.io/github/license/jojowwbb/PenEditor)](https://github.com/jojowwbb/PenCode)  [![GitHub issues](https://img.shields.io/github/issues-raw/jojowwbb/PenEditor)](https://github.com/jojowwbb/PenCode)
+[![GitHub code size](https://img.shields.io/github/languages/code-size/samchenghowing/Learning_with_PenEditor)](https://github.com/samchenghowing/PenCode)  [![GitHub license](https://img.shields.io/github/license/samchenghowing/Learning_with_PenEditor)](https://github.com/samchenghowing/PenCode)  [![GitHub issues](https://img.shields.io/github/issues-raw/samchenghowing/Learning_with_PenEditor)](https://github.com/samchenghowing/PenCode)
 
  :rocket: ​Simple Online Code Editor! Support Rect, HTML, CSS, Javascript | PenEditor
 
-PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, and out of the box! PenEditor.js is an open-source online HTML / CSS / JavaScript code editor (Code Playground) inspired by Codepen.io.
+PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, and out of the box! Learning_with_PenEditor.js is an open-source online HTML / CSS / JavaScript code editor (Code Playground) inspired by Codepen.io.
 
+<a href="https://github.com/jojowwbb/PenEditor">Orignated by jojowwbb</a>
 
 
 <p align="center">
-  <a href="https://github.com/jojowwbb/PenEditor">
+  <a href="https://github.com/samchenghowing/Learning_with_PenEditor">
     <img src="https://z3.ax1x.com/2021/04/01/cV436J.png" alt="Logo" width="86" height="86"/>
   </a>
 </p>
@@ -19,11 +20,11 @@ PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, an
     Simple Online Code Editor
     <br />
     <br />
-    <a href="https://github.com/jojowwbb/PenEditor">View Demo</a>
+    <a href="https://github.com/samchenghowing/Learning_with_PenEditor">View Demo</a>
     ·
-    <a href="https://github.com/jojowwbb/PenEditor/issues">Report Bug</a>
+    <a href="https://github.com/samchenghowing/Learning_with_PenEditor/issues">Report Bug</a>
     ·
-    <a href="https://github.com/jojowwbb/PenEditor/issues">Request Feature</a>
+    <a href="https://github.com/samchenghowing/Learning_with_PenEditor/issues">Request Feature</a>
   </p>
 
 
@@ -48,7 +49,7 @@ PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, an
 
 ## Online
 
-[PenEditor Demo](https://jojowwbb.github.io/pen/index.html)
+[Learning_with_PenEditor Demo](https://samchenghowing.github.io/pen/index.html)
 
 ## Table of Contents
 
@@ -61,11 +62,11 @@ PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, an
 
 ## Install
 
-This project uses [node](http://nodejs.org) and [npm](https://npmjs.com). Go check them out if you don't have them locally installed.
+This project uses [node](http://nodejs.org), [npm](https://npmjs.com) and [webpack](https://webpack.js.org/).. Go check them out if you don't have them locally installed.
 
 ```sh
 
-$ git clone https://github.com/jojowwbb/PenEditor.git
+$ git clone https://github.com/samchenghowing/Learning_with_PenEditor.git
 
 ```
 
@@ -81,9 +82,9 @@ $ npm run dev
 
 ## Example
 
-[Online demo](https://jojowwbb.github.io/pen/index.html)
+[Online demo](https://samchenghowing.github.io/pen/index.html)
 
-To see how the specification has been applied, see the [Demo](https://jojowwbb.github.io/pen/index.html).
+To see how the specification has been applied, see the [Demo](https://samchenghowing.github.io/pen/index.html).
 
 ## Related
 
@@ -94,10 +95,11 @@ To see how the specification has been applied, see the [Demo](https://jojowwbb.g
 ## Maintainers
 
 [@jojowwbb](https://github.com/jojowwbb).
+[@samchenghowing](https://github.com/samchenghowing).
 
 ## Contributing
 
-Feel free to dive in! [Open an issue](https://github.com/jojowwbb/PenEditor/issues/new) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/samchenghowing/Learning_with_PenEditor/issues/new) or submit PRs.
 
 Standard Readme follows the [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
 
