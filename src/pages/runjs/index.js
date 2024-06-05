@@ -1,16 +1,27 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import { saveAs } from "file-saver";
-import { Tooltip } from 'react-tooltip'
-import init from "./init";
+import { initCodeEditor, createNode } from "./lib";
 
+import init from "./init";
 import "./bulma.min.css";
 import "./index.less";
 
 import logo from "./editor.png";
 
-import { initCodeEditor, createNode } from "./lib";
+// material UI Icons
+import HtmlIcon from '@mui/icons-material/Html';
+import CssIcon from '@mui/icons-material/Css';
+import JavascriptIcon from '@mui/icons-material/Javascript';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import CodeIcon from '@mui/icons-material/Code';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-import { IconJavascript, IconHtml, IconCss, IconSave, IconFormat, IconRun } from "./icon";
+// material UI Layout
+// import Grid from '@mui/material/Unstable_Grid2';
+
+// UI component
+import { Tooltip } from 'react-tooltip'
+
 
 export default () => {
 	let [mode, setMode] = useState("js");
@@ -120,17 +131,17 @@ export default () => {
 					<div style={{ width: 40 }}></div>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="JS Editor" data-tooltip-place="top">
 						<div class={mode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("js")}>
-							<IconJavascript></IconJavascript>
+							<JavascriptIcon></JavascriptIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Html Editor" data-tooltip-place="top">
 						<div class={mode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("html")}>
-							<IconHtml></IconHtml>
+							<HtmlIcon></HtmlIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Css Editor" data-tooltip-place="top">
 						<div class={mode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setMode("css")}>
-							<IconCss></IconCss>
+							<CssIcon></CssIcon>
 						</div>
 					</a>
 					<Tooltip id="editor-tooltip" style={{ zIndex: 401 }} />
@@ -163,7 +174,7 @@ export default () => {
 				<div class="menu" style={{ flex: 1 }}>
 					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Save as html file" data-tooltip-place="top">
 						<div class="tool-icon" onClick={onDownload}>
-							<IconSave></IconSave>
+							<SaveAsIcon></SaveAsIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Format code" data-tooltip-place="top">
@@ -174,12 +185,12 @@ export default () => {
 								onFormat("html");
 								onFormat("css");
 							}}>
-							<IconFormat></IconFormat>
+							<CodeIcon></CodeIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Run code" data-tooltip-place="top">
 						<div class="tool-icon" onClick={onRun}>
-							<IconRun></IconRun>
+							<PlayArrowIcon></PlayArrowIcon>
 						</div>
 					</a>
 					<Tooltip id="menu-tooltip" style={{ zIndex: 401 }} />
