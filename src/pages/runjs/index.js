@@ -8,6 +8,9 @@ import "./index.less";
 
 import logo from "./editor.png";
 
+
+import AppBar from './components/AppBar'
+
 // material UI Icons
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
@@ -126,6 +129,7 @@ export default () => {
 	return (
 		<div className="runjs">
 			<div className="runjs__header">
+			<AppBar />
 				<div class="nav center" style={{ paddingLeft: 20, width: 240 }}>
 					<img style={{ height: 36 }} src={logo} alt="" />
 					<div style={{ width: 40 }}></div>
