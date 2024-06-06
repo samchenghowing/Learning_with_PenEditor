@@ -9,9 +9,7 @@ import "./index.less";
 import logo from "./editor.png";
 
 
-import AppBar from './components/AppBar'
-
-// material UI Icons
+import AppBar from '@mui/material/AppBar';
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
@@ -27,8 +25,8 @@ import { Tooltip } from 'react-tooltip'
 
 
 export default () => {
-	let [mode, setMode] = useState("js");
-	let [isAuto, setAuto] = useState(false);
+	const [editorMode, setEditorMode] = useState("js");
+	const [autoRun, setAutoRun] = useState(false);
 
 	let staticRef = useRef({
 		isAuto: false,
@@ -98,7 +96,7 @@ export default () => {
 		if (staticRef.current.isAuto) {
 			onRun();
 		}
-	}, [isAuto]);
+	}, [autoRun]);
 
 	useEffect(() => {
 		if (staticRef.current.js == null && staticRef.current.html == null && staticRef.current.css == null) {
@@ -129,22 +127,21 @@ export default () => {
 	return (
 		<div className="runjs">
 			<div className="runjs__header">
-			<AppBar />
 				<div class="nav center" style={{ paddingLeft: 20, width: 240 }}>
 					<img style={{ height: 36 }} src={logo} alt="" />
 					<div style={{ width: 40 }}></div>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="JS Editor" data-tooltip-place="top">
-						<div class={mode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("js")}>
+						<div class={editorMode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("js")}>
 							<JavascriptIcon></JavascriptIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Html Editor" data-tooltip-place="top">
-						<div class={mode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setMode("html")}>
+						<div class={editorMode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("html")}>
 							<HtmlIcon></HtmlIcon>
 						</div>
 					</a>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Css Editor" data-tooltip-place="top">
-						<div class={mode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setMode("css")}>
+						<div class={editorMode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setEditorMode("css")}>
 							<CssIcon></CssIcon>
 						</div>
 					</a>
@@ -164,10 +161,10 @@ export default () => {
 					/>
 					<label class="checkbox">
 						<input
-							checked={isAuto}
+							checked={autoRun}
 							onChange={(e) => {
 								staticRef.current.isAuto = e.currentTarget.checked;
-								setAuto(e.currentTarget.checked);
+								setAutoRun(e.currentTarget.checked);
 							}}
 							type="checkbox"
 							style={{ marginRight: 5 }}
@@ -202,13 +199,13 @@ export default () => {
 			</div>
 
 			<div className="runjs__editor">
-				<div id="html-wrap" style={{ visibility: mode == "html" ? "visible" : "hidden" }}>
+				<div id="html-wrap" style={{ visibility: editorMode == "html" ? "visible" : "hidden" }}>
 					<textarea class="form-control" id="html"></textarea>
 				</div>
-				<div id="css-wrap" style={{ visibility: mode == "css" ? "visible" : "hidden" }}>
+				<div id="css-wrap" style={{ visibility: editorMode == "css" ? "visible" : "hidden" }}>
 					<textarea class="form-control" id="css"></textarea>
 				</div>
-				<div id="js-wrap" style={{ visibility: mode == "js" ? "visible" : "hidden" }}>
+				<div id="js-wrap" style={{ visibility: editorMode == "js" ? "visible" : "hidden" }}>
 					<textarea class="form-control" id="js"></textarea>
 				</div>
 			</div>
