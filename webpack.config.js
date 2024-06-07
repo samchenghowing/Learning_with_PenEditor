@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 let plugins = [];
+let varDevtool = ""
 
 function absolute(dir) {
 	return path.resolve(__dirname, dir);
@@ -18,7 +19,9 @@ function assetsPath(_path) {
 
 if (process.env.NODE_ENV == "production") {
 	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
-	//plugins = [new CleanWebpackPlugin()];
+	varDevtool = "source-map"
+	console.log("building in production mode")
+	plugins = [new CleanWebpackPlugin()];
 } else if (process.env.NODE_ENV == "development") {
 	// const vendorManifest = require("./dist/json/vendor-manifest.json");
 	// plugins = [new webpack.DllReferencePlugin({ manifest: vendorManifest })];
@@ -60,7 +63,7 @@ module.exports = {
 		publicPath: "/",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: process.env.NODE_ENV == "production" ? "" : "source-map",
+	devtool: varDevtool,
 	devServer: {
 		host: "127.0.0.1",
 		port: 8099,

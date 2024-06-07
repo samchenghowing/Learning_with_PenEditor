@@ -70,21 +70,45 @@ $ git clone https://github.com/samchenghowing/Learning_with_PenEditor.git
 
 ```
 
-## Usage
+## Development
 
 ```sh
 
-$ npm install
+npm install
+npm run dev
 
-$ npm run dev
+```
+
+## Deployment
+
+```sh
+
+npm install
+npm run build
+npm install -g serve
+serve -s dist
+
+```
+
+## Deployment inside Docker container
+
+```sh
+
+docker build -t pen_editor:1.0.0 .
+docker run -d -p 80:80 pen_editor:1.0.0
+
+# to terminate the container, list its id then stop it by id
+docker ps
+docker stop #containerID
+
+# or, stop all containers
+docker stop $(docker ps -q)
 
 ```
 
 ## Example
 
 [Online demo](https://samchenghowing.github.io/pen/index.html)
-
-To see how the specification has been applied, see the [Demo](https://samchenghowing.github.io/pen/index.html).
 
 ## Related
 

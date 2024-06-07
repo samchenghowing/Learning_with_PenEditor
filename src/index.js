@@ -8,12 +8,12 @@ import Home from "./pages/home-page";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />,
+        element: <Editor />,
         errorElement: <ErrorPage />,
     },
     {
         path: "/editor",
-        element: <Editor />,
+        element: <Home />,
         errorElement: <ErrorPage />,
     },
 ]);
