@@ -14,8 +14,8 @@ exports.connect = (app) => {
     mongoose.Promise = global.Promise;
     console.log("MongoDB connection with retry");
     mongoose
-      .connect(process.env.MONGODB_URI, options)
-      // .connect("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.6", options)
+      // .connect(process.env.MONGODB_URI, options)
+      .connect("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.6", options)
       .then(() => {
         console.log("MongoDB is connected");
         app.emit("ready");
