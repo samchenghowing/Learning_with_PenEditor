@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM node:lts-buster-slim AS development
+FROM node:20 AS development
 
 # Create app directory
 WORKDIR /usr/src/app

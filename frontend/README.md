@@ -95,7 +95,7 @@ serve -s dist
 ```sh
 
 docker build -t pen_editor:1.0.0 .
-docker run -d -p 80:80 pen_editor:1.0.0
+docker run -d -p 3000:3000 pen_editor:1.0.0
 
 # to terminate the container, list its id then stop it by id
 docker ps

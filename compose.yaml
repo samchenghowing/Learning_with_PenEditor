@@ -28,7 +28,7 @@ services:
     networks:
       - express-mongo
       - react-express
-    expose: 
+    expose:
       - 3000
   mongo:
     restart: always
@@ -42,6 +42,7 @@ services:
 networks:
   react-express:
   express-mongo:
+
 
 volumes:
   mongo_data:

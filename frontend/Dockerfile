@@ -2,16 +2,16 @@
 FROM node:20 AS build
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy the package.json and package-lock.json (or yarn.lock) files
-COPY package*.json ./
+COPY package*.json /usr/src/app
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of your app's source code from your host to your image filesystem.
-COPY . .
+COPY . /usr/src/app
 
 # Build the application
 RUN npm run build
