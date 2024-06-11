@@ -4,12 +4,11 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development webpack-dev-server --mode=development",
-		"build": "INLINE_RUNTIME_CHUNK=false cross-env NODE_ENV=production webpack --mode=production --progress",
-		"build:local": "cross-env NODE_ENV=production webpack --mode=production --progress --config webpack.config.local.js"
+		"build": "INLINE_RUNTIME_CHUNK=false cross-env NODE_ENV=production webpack --mode=production --progress"
 	},
 	"keywords": [],
-	"author": "",
-	"license": "ISC",
+	"author": "Sam Cheng",
+	"license": "BSD-3",
 	"devDependencies": {
 		"@babel/cli": "^7.13.14",
 		"@babel/core": "^7.13.14",
@@ -46,6 +45,7 @@
 		"@loadable/component": "^5.12.0",
 		"@mui/icons-material": "^5.15.19",
 		"@mui/material": "^5.15.19",
+		"axios": "^1.7.2",
 		"codemirror": "^5.65.16",
 		"core-js": "^3.1.4",
 		"file-saver": "^2.0.5",

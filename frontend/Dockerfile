@@ -28,7 +28,7 @@ RUN rm -rf /etc/nginx/conf.d
 COPY conf /etc/nginx
 
 # Expose port 80 to the Docker host, so we can access it from the outside.
-EXPOSE 80
+EXPOSE 3000
 
 # Start Nginx and keep it running in the foreground
 CMD ["nginx", "-g", "daemon off;"]

@@ -2,7 +2,7 @@ services:
   frontend:
     build:
       context: frontend
-      target: development
+      target: build
     ports:
       - 3000:3000
     stdin_open: true

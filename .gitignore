@@ -1,5 +1,5 @@
-### Node Js ###
-node_modules/
-.DS_Store
-dist/
-package-lock.json
+frontend/node_modules/
+backend/node_modules/
+.idea/
+data
+*.log

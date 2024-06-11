@@ -5,13 +5,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserJSPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 let plugins = [];
+let varDevtool = false;
 
 function absolute(dir) {
 	return path.resolve(__dirname, dir);
@@ -21,9 +18,10 @@ function assetsPath(_path) {
 }
 
 if (process.env.NODE_ENV == "production") {
-	//需要做打包分析时、用个插件
 	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
-	//plugins = [new CleanWebpackPlugin()];
+	varDevtool = "source-map"
+	console.log("building in production mode")
+	plugins = [new CleanWebpackPlugin()];
 } else if (process.env.NODE_ENV == "development") {
 	// const vendorManifest = require("./dist/json/vendor-manifest.json");
 	// plugins = [new webpack.DllReferencePlugin({ manifest: vendorManifest })];
@@ -34,20 +32,20 @@ plugins = plugins.concat([
 		filename: "styles/[name].[hash].css",
 		chunkFilename: "styles/[id].[hash].css",
 	}),
-	new CopyWebpackPlugin([
-		{
-			from: "./favicon.ico",
-			to: "favicon.ico",
-		},
-	]),
-	new CopyWebpackPlugin([
-		{
-			from: "static",
-			to: "static",
-		},
-	]),
+	new CopyWebpackPlugin({
+		patterns: [
+			{
+				from: "./favicon.ico",
+				to: "favicon.ico",
+			},
+			{
+				from: "static",
+				to: "static",
+			},
+		],
+	}),
 	new HtmlWebpackPlugin({
-		chunks:['app'],
+		chunks: ['app'],
 		title: "PenEditor",
 		favicon: path.resolve("favicon.ico"),
 		template: "./src/template.html",
@@ -59,27 +57,29 @@ module.exports = {
 		app: "./src/index.js",
 	},
 	mode: process.env.NODE_ENV,
-	
+
 	output: {
 		filename: "modules/[name].[hash].js",
-		publicPath: "./",
+		publicPath: "/",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: process.env.NODE_ENV == "production" ? "" : "source-map",
+	devtool: varDevtool,
 	devServer: {
 		host: "127.0.0.1",
-		port: 8099,
-		contentBase: "./dist",
+		port: 3000,
+		historyApiFallback: true,
+		static: {
+			directory: "./dist",
+		},
+		proxy: [
+			{
+				context: ['/api'],
+				target: 'http://backend:3000',
+			}
+		],
 	},
 	resolve: {
 		extensions: [".js", ".json", ".jsx", ".less", ".css"],
-	},
-	optimization: {
-		minimizer: process.env.NODE_ENV == "production" ? [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})] : [],
-		splitChunks: {
-			chunks: "all",
-			minChunks: 2,
-		},
 	},
 	module: {
 		rules: [
@@ -125,7 +125,7 @@ module.exports = {
 				test: /\.mjs$/,
 				include: /node_modules/,
 				type: 'javascript/auto'
-			},	
+			},
 			{
 				test: /\.(webp|png|jpe?g|gif|svg|ttf|woff|eot)(\?.*)?$/,
 				loader: "file-loader",
