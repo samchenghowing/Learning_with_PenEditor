@@ -8,7 +8,7 @@ import "./index.less";
 
 import logo from "./editor.png";
 
-import axios from "axios";
+import AI_Dialog from './components/AI_Dialog'
 
 // UI component
 import { Tooltip } from 'react-tooltip'
@@ -97,25 +97,6 @@ export default () => {
 	}, [autoRun]);
 
 	useEffect(() => {
-		// Define an async function to make the POST request
-		const fetchData = async () => {
-			try {
-				const response = await axios.post('api/generate', {
-					"model": "deepseek-coder",
-					"prompt": "how to print helloworld in javascript",
-					"stream": false
-				});
-				// Handle the response data
-				console.log(response.data);
-			} catch (error) {
-				// Handle any errors
-				console.error('There was an error!', error);
-			}
-		};
-
-		// Call the fetchData function
-		fetchData();
-
 		if (staticRef.current.js == null && staticRef.current.html == null && staticRef.current.css == null) {
 			staticRef.current.js = initCodeEditor(document.getElementById("js"), "javascript", init.javascript, onAutoRun);
 			staticRef.current.html = initCodeEditor(document.getElementById("html"), "htmlmixed", init.html, onAutoRun);
@@ -145,6 +126,7 @@ export default () => {
 		<div className="runjs">
 			<div className="runjs__header">
 				<div class="nav center" style={{ paddingLeft: 20, width: 240 }}>
+					<AI_Dialog />
 					<img style={{ height: 36 }} src={logo} alt="" />
 					<div style={{ width: 40 }}></div>
 					<a data-tooltip-id="editor-tooltip" data-tooltip-content="JS Editor" data-tooltip-place="top">
