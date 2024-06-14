@@ -75,7 +75,7 @@ module.exports = {
 		proxy: [
 			{
 				context: ['/api'],
-				target: 'http://backend:3000',
+				target: 'http://localhost:11434',
 			}
 		],
 	},

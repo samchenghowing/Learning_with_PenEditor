@@ -8,8 +8,10 @@ import "./index.less";
 
 import logo from "./editor.png";
 
+import axios from "axios";
 
-import AppBar from '@mui/material/AppBar';
+// UI component
+import { Tooltip } from 'react-tooltip'
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
@@ -19,10 +21,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 // material UI Layout
 // import Grid from '@mui/material/Unstable_Grid2';
-
-// UI component
-import { Tooltip } from 'react-tooltip'
-
 
 export default () => {
 	const [editorMode, setEditorMode] = useState("js");
@@ -99,6 +97,25 @@ export default () => {
 	}, [autoRun]);
 
 	useEffect(() => {
+		// Define an async function to make the POST request
+		const fetchData = async () => {
+			try {
+				const response = await axios.post('api/generate', {
+					"model": "deepseek-coder:6.7b",
+					"prompt": "how to print helloworld in javascript",
+					"stream": false
+				});
+				// Handle the response data
+				console.log(response.data);
+			} catch (error) {
+				// Handle any errors
+				console.error('There was an error!', error);
+			}
+		};
+
+		// Call the fetchData function
+		fetchData();
+
 		if (staticRef.current.js == null && staticRef.current.html == null && staticRef.current.css == null) {
 			staticRef.current.js = initCodeEditor(document.getElementById("js"), "javascript", init.javascript, onAutoRun);
 			staticRef.current.html = initCodeEditor(document.getElementById("html"), "htmlmixed", init.html, onAutoRun);
