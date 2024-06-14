@@ -101,7 +101,7 @@ export default () => {
 		const fetchData = async () => {
 			try {
 				const response = await axios.post('api/generate', {
-					"model": "deepseek-coder:6.7b",
+					"model": "deepseek-coder",
 					"prompt": "how to print helloworld in javascript",
 					"stream": false
 				});

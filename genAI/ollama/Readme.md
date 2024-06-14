@@ -3,25 +3,33 @@
 ## Model reference (DeepSeek-Coder)
 https://github.com/deepseek-ai/DeepSeek-Coder?tab=readme-ov-file
 
-
-### Install and run in background
+### Install ollama (linux)
+https://github.com/ollama/ollama?tab=readme-ov-file#linux
 ```
-ollama pull deepseek-coder:6.7b
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+### Download DeepSeek-Coder Model
+```
+ollama pull deepseek-coder
+```
+
+### Run ollama in background
+```
 ollama serve
 ```
 
-### Edit the Modelfile
-https://github.com/ollama/ollama/blob/main/docs/modelfile.md
+### (Optional) Edit the [_Modelfile_](Modelfile) and create a blueprint
+https://github.com/ollama/ollama/blob/main/docs/modelfile.md#examples
 ```
-ollama show --modelfile deepseek-coder:6.7b
+ollama show --modelfile deepseek-coder
 ```
 
 ### Testing after serve
 https://github.com/ollama/ollama/blob/main/docs/api.md
 ```
 curl -X POST http://localhost:11434/api/generate -d '{
-  "model": "deepseek-coder:6.7b",
-  "prompt":"Why is the sky blue?",
-  "stream": false
+  "model": "deepseek-coder",
+  "prompt":"How to print hello world in javascript?"
  }'
 ```
