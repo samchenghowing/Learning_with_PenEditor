@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -25,10 +25,8 @@ function PaperComponent(props) {
 }
 
 export default function DraggableDialog() {
-    const [open, setOpen] = React.useState(false);
-    
-    // need to be collected 
-    var reply = "HI. I am your coding helper, tell me what u want!";
+    const [open, setOpen] = useState(false);
+    const [dialogText, setDialogText] = useState("");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -44,36 +42,6 @@ export default function DraggableDialog() {
 
     // Define an async function to make the POST request
     const fetchData = async () => {
-        // try {
-        //     // Make the POST request
-        //     const responseStream = await axios.post('api/generate', {
-        //         "model": "deepseek-coder",
-        //         "prompt": "how to print helloworld in javascript"
-        //     }, {
-        //         responseType: 'stream' // This tells axios to handle the response as a stream
-        //     });
-
-        //     // Initialize an empty string to collect the responses
-        //     let fullResponse = '';
-
-        //     // Handle the data event of the stream to collect the responses
-        //     responseStream.data.on('data', (chunk) => {
-        //         // Parse the chunk as JSON and append the 'response' field to the fullResponse string
-        //         const jsonChunk = JSON.parse(chunk);
-        //         fullResponse += jsonChunk.response;
-
-        //         this.DialogContentText += jsonChunk.response;
-        //     });
-
-        //     // Handle the end event of the stream to know when all data has been received
-        //     responseStream.data.on('end', () => {
-        //         // All data has been received, fullResponse contains the concatenated responses
-        //         console.log(fullResponse);
-        //     });
-        // } catch (error) {
-        //     // Handle any errors
-        //     console.error('There was an error!', error);
-        // }
         try {
             // Make the POST request using the Fetch API
             const response = await fetch('api/generate', {
@@ -107,10 +75,16 @@ export default function DraggableDialog() {
                 const chunk = new TextDecoder('utf-8').decode(value);
                 // Assuming each chunk is a complete JSON object
                 const jsonChunk = JSON.parse(chunk);
-                fullResponse += jsonChunk.response;
 
-                // TODO fix
-                this.reply += jsonChunk.response;
+                console.log(jsonChunk);
+                if (jsonChunk.done == true) {
+                    // Stream has been fully read
+                    console.log('Stream complete\n', fullResponse);
+                    return;
+                }
+
+                fullResponse += jsonChunk.response;
+                setDialogText(dialogText => dialogText += jsonChunk.response);
 
                 // Read the next chunk
                 readStream();
@@ -140,12 +114,10 @@ export default function DraggableDialog() {
                 aria-labelledby="draggable-dialog-title"
             >
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    Subscribe
+                    Ai helper
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        {{reply}}
-                    </DialogContentText>
+                    <DialogContentText children={dialogText} id="dialogText"  />
                     <TextField fullWidth label="input" id="input" />
 
                 </DialogContent>
