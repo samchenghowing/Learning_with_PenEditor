@@ -45,18 +45,15 @@
 		"@loadable/component": "^5.12.0",
 		"@mui/icons-material": "^5.15.19",
 		"@mui/material": "^5.15.19",
-		"axios": "^1.7.2",
 		"codemirror": "^5.65.16",
 		"core-js": "^3.1.4",
 		"file-saver": "^2.0.5",
 		"jszip": "^3.6.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"react-draggable": "^4.4.6",
 		"react-github-btn": "^1.2.0",
 		"react-github-button": "^0.1.11",
 		"react-router-dom": "^6.23.1",
-		"react-tooltip": "^5.26.4",
 		"styled-components": "^5.2.3"
 	},
 	"description": ""

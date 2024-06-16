@@ -5,26 +5,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Paper from '@mui/material/Paper';
-import Draggable from 'react-draggable';
-
 import TextField from '@mui/material/TextField';
 
-import axios from "axios";
 
-
-function PaperComponent(props) {
-    return (
-        <Draggable
-            handle="#draggable-dialog-title"
-            cancel={'[class*="MuiDialogContent-root"]'}
-        >
-            <Paper {...props} />
-        </Draggable>
-    );
-}
-
-export default function DraggableDialog() {
+export default function AlertDialog() {
     const [open, setOpen] = useState(false);
     const [dialogText, setDialogText] = useState("");
 
@@ -40,7 +24,6 @@ export default function DraggableDialog() {
         fetchData();
     };
 
-    // Define an async function to make the POST request
     const fetchData = async () => {
         try {
             // Make the POST request using the Fetch API
@@ -98,9 +81,6 @@ export default function DraggableDialog() {
         }
     };
 
-    // Call the fetchData function
-    // fetchData();
-
 
     return (
         <React.Fragment>
@@ -110,7 +90,6 @@ export default function DraggableDialog() {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                PaperComponent={PaperComponent}
                 aria-labelledby="draggable-dialog-title"
             >
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">

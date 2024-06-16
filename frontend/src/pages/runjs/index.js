@@ -11,7 +11,9 @@ import logo from "./editor.png";
 import AI_Dialog from './components/AI_Dialog'
 
 // UI component
-import { Tooltip } from 'react-tooltip'
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
@@ -129,22 +131,27 @@ export default () => {
 					<AI_Dialog />
 					<img style={{ height: 36 }} src={logo} alt="" />
 					<div style={{ width: 40 }}></div>
-					<a data-tooltip-id="editor-tooltip" data-tooltip-content="JS Editor" data-tooltip-place="top">
-						<div class={editorMode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("js")}>
-							<JavascriptIcon></JavascriptIcon>
-						</div>
-					</a>
-					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Html Editor" data-tooltip-place="top">
-						<div class={editorMode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("html")}>
-							<HtmlIcon></HtmlIcon>
-						</div>
-					</a>
-					<a data-tooltip-id="editor-tooltip" data-tooltip-content="Css Editor" data-tooltip-place="top">
-						<div class={editorMode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setEditorMode("css")}>
-							<CssIcon></CssIcon>
-						</div>
-					</a>
-					<Tooltip id="editor-tooltip" style={{ zIndex: 401 }} />
+					<Tooltip title="JS Editor">
+						<IconButton>
+							<div class={editorMode == "js" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("js")}>
+								<JavascriptIcon></JavascriptIcon>
+							</div>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Html Editor">
+						<IconButton>
+							<div class={editorMode == "html" ? "tool-icon selected" : "tool-icon"} onClick={() => setEditorMode("html")}>
+								<HtmlIcon></HtmlIcon>
+							</div>
+						</IconButton>
+					</Tooltip>
+					<Tooltip title="Css Editor">
+						<IconButton>
+							<div class={editorMode == "css" ? "tool-icon selected" : "tool-icon"} name="css" onClick={() => setEditorMode("css")}>
+								<CssIcon></CssIcon>
+							</div>
+						</IconButton>
+					</Tooltip>
 				</div>
 				<div class="tool center" style={{ flex: 1 }}>
 					<input
@@ -172,7 +179,7 @@ export default () => {
 					</label>
 				</div>
 				<div class="menu" style={{ flex: 1 }}>
-					<a data-tooltip-id="menu-tooltip" data-tooltip-content="Save as html file" data-tooltip-place="top">
+					{/* <a data-tooltip-id="menu-tooltip" data-tooltip-content="Save as html file" data-tooltip-place="top">
 						<div class="tool-icon" onClick={onDownload}>
 							<SaveAsIcon></SaveAsIcon>
 						</div>
@@ -193,7 +200,7 @@ export default () => {
 							<PlayArrowIcon></PlayArrowIcon>
 						</div>
 					</a>
-					<Tooltip id="menu-tooltip" style={{ zIndex: 401 }} />
+					<Tooltipold id="menu-tooltip" style={{ zIndex: 401 }} /> */}
 				</div>
 			</div>
 
