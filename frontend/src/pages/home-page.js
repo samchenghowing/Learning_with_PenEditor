@@ -1,6 +1,4 @@
 import React from "react";
-import axios from "axios";
-// import "./App.scss";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 

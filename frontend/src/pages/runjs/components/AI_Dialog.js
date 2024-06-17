@@ -6,11 +6,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
 
 export default function AlertDialog() {
     const [open, setOpen] = useState(false);
     const [dialogText, setDialogText] = useState("");
+    const [userPrompt, setUserPrompt] = useState("")
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,10 +27,10 @@ export default function AlertDialog() {
     };
 
     const handleClickSubmit = () => {
-        fetchData();
+        fetchData(userPrompt);
     };
 
-    const fetchData = async () => {
+    const fetchData = async (userPrompt) => {
         try {
             // Make the POST request using the Fetch API
             const response = await fetch('api/generate', {
@@ -34,7 +40,7 @@ export default function AlertDialog() {
                 },
                 body: JSON.stringify({
                     "model": "deepseek-coder",
-                    "prompt": "how to print helloworld in javascript"
+                    "prompt": userPrompt
                 })
             });
 
@@ -84,7 +90,7 @@ export default function AlertDialog() {
 
     return (
         <React.Fragment>
-            <Button onClick={handleClickOpen}>
+            <Button color="inherit" onClick={handleClickOpen}>
                 Open AI dialog
             </Button>
             <Dialog
@@ -96,9 +102,33 @@ export default function AlertDialog() {
                     Ai helper
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText children={dialogText} id="dialogText"  />
-                    <TextField fullWidth label="input" id="input" />
+                    <DialogContentText children={dialogText} id="dialogText" />
 
+                    <Card sx={{ minWidth: 275 }}>
+                        <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                Word of the Day
+                            </Typography>
+                            <Typography variant="body2">
+                                well meaning and kindly.
+                                <br />
+                                {'"a benevolent smile"'}
+                            </Typography>
+                        </CardContent>
+                        {/* <CardActions>
+                            <Button size="small">Learn More</Button>
+                        </CardActions> */}
+                    </Card>
+
+                    <TextField
+                        fullWidth
+                        label="Ask me any thing..."
+                        id="user-prompt"
+                        value={userPrompt}
+                        onChange={e => {
+                            setUserPrompt(e.target.value)
+                        }}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>

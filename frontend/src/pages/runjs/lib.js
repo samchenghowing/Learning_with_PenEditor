@@ -48,10 +48,6 @@ function debounce(fn, wait) {
 	};
 }
 
-function handle() {
-	console.log(Math.random());
-}
-
 export function initCodeEditor(dom, mode, initValue, fn) {
 	let editor = CodeMirror.fromTextArea(dom, {
 		mode: mode, //编辑器语言
