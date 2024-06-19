@@ -11,12 +11,32 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
+// Capitalize the component name to follow React naming conventions
+function InfoCard({ data }) {
+    return (
+        <Card sx={{ minWidth: 275, marginBottom: 2 }}>
+            <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {data.model}
+                </Typography>
+                <Typography variant="body2">
+                    {data.response}
+                </Typography>
+            </CardContent>
+        </Card>
+    );
+}
 
-export default function AlertDialog() {
+export default function AIDialog() {
     const [open, setOpen] = useState(false);
-    const [dialogText, setDialogText] = useState("");
-    const [userPrompt, setUserPrompt] = useState("")
-
+    const [userPrompt, setUserPrompt] = useState("");
+    const [cardContent, setCardContent] = useState([
+        {
+            id: 1,
+            model: "deepseek-coder",
+            response: "Hi, I am your AI helper, what can I do for you?",
+        },
+    ]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -27,12 +47,34 @@ export default function AlertDialog() {
     };
 
     const handleClickSubmit = () => {
-        fetchData(userPrompt);
+        if (userPrompt.trim()) { // Check if the prompt is not empty
+            const newCardId = Date.now();
+            setCardContent(prevCardContent => [
+                ...prevCardContent,
+                {
+                    id: newCardId,
+                    model: "User",
+                    response: userPrompt, // Start with an empty response
+                }
+            ]);
+            fetchData(userPrompt);
+            setUserPrompt(""); // Clear the input field
+        }
     };
 
     const fetchData = async (userPrompt) => {
+        // Create a new card with an initial response for the user prompt
+        const newCardId = Date.now(); // Using timestamp as a unique ID for simplicity
+        setCardContent(prevCardContent => [
+            ...prevCardContent,
+            {
+                id: newCardId,
+                model: "deepseek-coder",
+                response: "", // Start with an empty response
+            }
+        ]);
+
         try {
-            // Make the POST request using the Fetch API
             const response = await fetch('api/generate', {
                 method: 'POST',
                 headers: {
@@ -44,36 +86,35 @@ export default function AlertDialog() {
                 })
             });
 
-            // The response body is a ReadableStream.
-            // Use the getReader() method to read the stream
             const reader = response.body.getReader();
 
-            // Initialize an empty string to collect the responses
-            let fullResponse = '';
-
-            // Function to read the stream
             const readStream = async () => {
-                const { done, value } = await reader.read();
+                let { done, value } = await reader.read();
                 if (done) {
-                    // Stream has been fully read
-                    console.log('Stream complete', fullResponse);
+                    console.log('Stream complete');
                     return;
                 }
 
                 // Decode the stream chunk to a string
                 const chunk = new TextDecoder('utf-8').decode(value);
-                // Assuming each chunk is a complete JSON object
-                const jsonChunk = JSON.parse(chunk);
+                // Split the chunk by newlines, as each JSON object ends with a newline
+                const jsonStrings = chunk.split('\n').filter(Boolean);
 
-                console.log(jsonChunk);
-                if (jsonChunk.done == true) {
-                    // Stream has been fully read
-                    console.log('Stream complete\n', fullResponse);
-                    return;
-                }
-
-                fullResponse += jsonChunk.response;
-                setDialogText(dialogText => dialogText += jsonChunk.response);
+                jsonStrings.forEach(jsonString => {
+                    try {
+                        const jsonChunk = JSON.parse(jsonString);
+                        console.log(jsonChunk);
+                        // Update the response of the new card with the received chunk
+                        setCardContent(prevCardContent => prevCardContent.map(card => {
+                            if (card.id === newCardId) {
+                                return { ...card, response: card.response + jsonChunk.response };
+                            }
+                            return card;
+                        }));
+                    } catch (error) {
+                        console.error('Error parsing JSON chunk', error);
+                    }
+                });
 
                 // Read the next chunk
                 readStream();
@@ -93,37 +134,19 @@ export default function AlertDialog() {
             <Button color="inherit" onClick={handleClickOpen}>
                 Open AI dialog
             </Button>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="draggable-dialog-title"
-            >
+            <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    Ai helper
+                    AI helper
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText children={dialogText} id="dialogText" />
-
-                    <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography variant="body2">
-                                well meaning and kindly.
-                                <br />
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        {/* <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions> */}
-                    </Card>
-
+                    {/* Map over the cardContent state to render InfoCard components */}
+                    {cardContent.map((data) => (
+                        <InfoCard key={data.id} data={data} />
+                    ))}
                     <TextField
                         fullWidth
-                        label="Ask me any thing..."
                         id="user-prompt"
+                        placeholder="How to print hello world in javascript?"
                         value={userPrompt}
                         onChange={e => {
                             setUserPrompt(e.target.value)
