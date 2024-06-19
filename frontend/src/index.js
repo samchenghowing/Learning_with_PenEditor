@@ -3,17 +3,17 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 import Editor from "./pages/runjs";
 import ErrorPage from "./pages/error-page";
-import Home from "./pages/home-page";
+import Home from "./pages/landing/LandingPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Editor />,
+        element: <Home />,
         errorElement: <ErrorPage />,
     },
     {
         path: "/editor",
-        element: <Home />,
+        element: <Editor />,
         errorElement: <ErrorPage />,
     },
 ]);
