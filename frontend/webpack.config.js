@@ -72,6 +72,7 @@ module.exports = {
 	},
 	resolve: {
 		extensions: [".js", ".json", ".jsx", ".less", ".css"],
+		alias: { '@codemirror/state': __dirname + '/node_modules/@codemirror/state/dist/index.cjs', },
 	},
 	module: {
 		rules: [
