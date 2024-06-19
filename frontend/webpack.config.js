@@ -1,6 +1,4 @@
 const path = require("path");
-const webpack = require("webpack");
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -8,18 +6,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 let plugins = [];
-let varDevtool = false;
-
-function absolute(dir) {
-	return path.resolve(__dirname, dir);
-}
 function assetsPath(_path) {
 	return path.posix.join("assets", _path);
 }
 
 if (process.env.NODE_ENV == "production") {
 	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
-	varDevtool = "source-map"
 	console.log("building in production mode")
 	plugins = [new CleanWebpackPlugin()];
 } else if (process.env.NODE_ENV == "development") {
@@ -57,13 +49,12 @@ module.exports = {
 		app: "./src/index.js",
 	},
 	mode: process.env.NODE_ENV,
-
 	output: {
 		filename: "modules/[name].[hash].js",
 		publicPath: "/",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: varDevtool,
+	devtool: process.env.NODE_ENV == "production" ? false : "source-map",
 	devServer: {
 		host: "0.0.0.0",
 		port: 3000,

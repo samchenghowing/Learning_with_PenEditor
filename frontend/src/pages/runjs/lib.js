@@ -33,10 +33,6 @@ import "codemirror/addon/hint/show-hint.css";
 //快捷键方案
 import "codemirror/keymap/sublime.js";
 
-//emmet 插件
-import emmet from "@emmetio/codemirror-plugin";
-
-emmet(CodeMirror);
 
 function debounce(fn, wait) {
 	var timer = null;
