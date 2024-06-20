@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Markdown from 'react-markdown' // For fromatting GenAI response
 
 // Capitalize the component name to follow React naming conventions
 function InfoCard({ data }) {
@@ -19,8 +18,8 @@ function InfoCard({ data }) {
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {data.model}
                 </Typography>
-                <Typography variant="body2">
-                    {data.response}
+                <Typography component={'span'} variant="body2">
+                    <Markdown>{data.response}</Markdown>
                 </Typography>
             </CardContent>
         </Card>
@@ -37,6 +36,7 @@ export default function AIDialog() {
             response: "Hi, I am your AI helper, what can I do for you?",
         },
     ]);
+    const cardRef = useRef(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -64,7 +64,7 @@ export default function AIDialog() {
 
     const fetchData = async (userPrompt) => {
         // Create a new card with an initial response for the user prompt
-        const newCardId = Date.now(); // Using timestamp as a unique ID for simplicity
+        const newCardId = Date.now() + 1; // Using timestamp as a unique ID for simplicity
         setCardContent(prevCardContent => [
             ...prevCardContent,
             {
@@ -128,23 +128,33 @@ export default function AIDialog() {
         }
     };
 
+    useEffect(() => {
+        if (cardRef.current != null) cardRef.current.scrollTo(0, cardRef.current.scrollHeight);
+    }, [cardContent]);
+
+
 
     return (
         <React.Fragment>
             <Button color="inherit" onClick={handleClickOpen}>
                 Open AI dialog
             </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
-                <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="AI-dialog">
+                <DialogTitle style={{ cursor: 'move' }} id="AI-dialog-title">
                     AI helper
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent ref={cardRef}>
                     {/* Map over the cardContent state to render InfoCard components */}
                     {cardContent.map((data) => (
                         <InfoCard key={data.id} data={data} />
                     ))}
                     <TextField
                         fullWidth
+                        multiline
                         id="user-prompt"
                         placeholder="How to print hello world in javascript?"
                         value={userPrompt}

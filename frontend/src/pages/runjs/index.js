@@ -1,9 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-
-import "./bulma.min.css";
-import "./index.less";
 
 import AppBar from './components/AppBar'
 
@@ -16,10 +13,14 @@ export default () => {
 	const [editorMode, setEditorMode] = useState("js");
 	const [autoRun, setAutoRun] = useState(false);
 
-	const [value, setValue] = React.useState("console.log('hello world!');");
-	const onChange = React.useCallback((val, viewUpdate) => {
+	const [value, setValue] = useState("console.log('hello world!');");
+
+	const onChange = useCallback((val, viewUpdate) => {
 		console.log('val:', val);
 		setValue(val);
+
+		let iframe = document.getElementById("preview");
+		iframe.contentWindow.location.reload(true);
 	}, []);
 
 	let staticRef = useRef({
@@ -27,8 +28,21 @@ export default () => {
 		js: null,
 		css: null,
 		html: null,
-		lib: ["https://unpkg.com/babel-standalone/babel.min.js", "https://unpkg.com/react/umd/react.development.js", "https://unpkg.com/react-dom/umd/react-dom.development.js"],
 	});
+
+	const onLoad = useCallback(() => {
+		let iframe = document.getElementById("preview")
+		var preview;
+
+		if (iframe.contentDocument) preview = iframe.contentDocument;
+		else if (iframe.contentWindow) preview = iframe.contentWindow.document;
+		else preview = iframe.document;
+
+		preview.open();
+		preview.write(value);
+		preview.close();
+	}, []);
+
 
 	return (
 		<div className="runjs">
@@ -41,6 +55,11 @@ export default () => {
 			/>
 
 			<CodeMirror value={value} height="200px" extensions={[javascript({ jsx: true })]} onChange={onChange} />
+
+			<div>
+				<iframe onLoad={onLoad} id="preview" src="./static/view.html" seamless width="100%" height="100%"></iframe>
+			</div>
+
 		</div>
 	);
 };

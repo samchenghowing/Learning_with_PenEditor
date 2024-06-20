@@ -65,35 +65,28 @@ PenEditor is a simple HTML / CSS / JS code editor, works online in real-time, an
 This project uses [node](http://nodejs.org), [npm](https://npmjs.com) and [webpack](https://webpack.js.org/).. Go check them out if you don't have them locally installed.
 
 ```sh
-
 $ git clone https://github.com/samchenghowing/Learning_with_PenEditor.git
-
 ```
 
 ## Development
 
 ```sh
-
 npm install
 npm run dev
-
 ```
 
 ## Deployment
 
 ```sh
-
 npm install
 npm run build
 npm install -g serve
 serve -s dist
-
 ```
 
 ## Deployment inside Docker container
 
 ```sh
-
 docker build -t pen_editor:1.0.0 .
 docker run -d -p 3000:3000 pen_editor:1.0.0
 
@@ -103,7 +96,6 @@ docker stop #containerID
 
 # or, stop all containers
 docker stop $(docker ps -q)
-
 ```
 
 ## Example

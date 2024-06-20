@@ -53,7 +53,7 @@ module.exports = {
 		publicPath: "/",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: "source-map",
+	devtool: process.env.NODE_ENV == "production" ? false : "source-map",
 	devServer: {
 		host: "0.0.0.0",
 		port: 3000,
