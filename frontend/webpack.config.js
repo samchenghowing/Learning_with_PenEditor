@@ -11,9 +11,8 @@ function assetsPath(_path) {
 }
 
 if (process.env.NODE_ENV == "production") {
-	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
 	console.log("building in production mode")
-	plugins = [new CleanWebpackPlugin()];
+	plugins = [new BundleAnalyzerPlugin(), new CleanWebpackPlugin()];
 } else if (process.env.NODE_ENV == "development") {
 	// const vendorManifest = require("./dist/json/vendor-manifest.json");
 	// plugins = [new webpack.DllReferencePlugin({ manifest: vendorManifest })];
@@ -46,7 +45,7 @@ plugins = plugins.concat([
 
 module.exports = {
 	entry: {
-		app: "./src/index.js",
+		app: "./src/index.tsx",
 	},
 	mode: process.env.NODE_ENV,
 	output: {
@@ -54,7 +53,7 @@ module.exports = {
 		publicPath: "/",
 		path: path.resolve(__dirname, "dist"),
 	},
-	devtool: process.env.NODE_ENV == "production" ? false : "source-map",
+	devtool: "source-map",
 	devServer: {
 		host: "0.0.0.0",
 		port: 3000,
@@ -71,7 +70,7 @@ module.exports = {
 		],
 	},
 	resolve: {
-		extensions: [".js", ".json", ".jsx", ".less", ".css"],
+		extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".less", ".css"],
 		alias: { '@codemirror/state': __dirname + '/node_modules/@codemirror/state/dist/index.cjs', },
 	},
 	module: {
@@ -106,11 +105,11 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.jsx?$/,
+				test: /\.(t|j)sx?$/,
 				exclude: /node_modules/,
 				use: [
 					{
-						loader: "babel-loader?cacheDirectory=true",
+						loader: "ts-loader",
 					},
 				],
 			},
@@ -126,6 +125,12 @@ module.exports = {
 					name: assetsPath("images/[name].[hash:7].[ext]"),
 				},
 			},
+			{
+				enforce: "pre",
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: "source-map-loader"
+			}
 		],
 	},
 	plugins: plugins,

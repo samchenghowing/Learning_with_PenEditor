@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 import Editor from "./pages/runjs";
@@ -18,7 +18,8 @@ const router = createBrowserRouter([
     },
 ]);
 
-const root = createRoot(document.getElementById('root'));
+const container = document.getElementById('root') as HTMLElement;
+const root = createRoot(container);
 root.render(
     <React.StrictMode>
         <RouterProvider router={router} />
