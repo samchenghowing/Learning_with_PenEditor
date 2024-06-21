@@ -7,6 +7,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import AIDialog from './AI_Dialog';
 
 export default function Hero() {
   return (
@@ -42,7 +43,7 @@ export default function Hero() {
               fontSize: 'clamp(3.5rem, 10vw, 4rem)',
             }}
           >
-            Our latest&nbsp;
+            You can learn&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -52,7 +53,7 @@ export default function Hero() {
                   theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
               }}
             >
-              products
+              anything
             </Typography>
           </Typography>
           <Typography
@@ -60,9 +61,8 @@ export default function Hero() {
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
           >
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. Elevate your experience with top-tier features
-            and services.
+            With GenAi powered learning platform, you can learn programming in a sec. 
+            Begin now with our latest technology and services.
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
@@ -86,6 +86,7 @@ export default function Hero() {
             <Button variant="contained" color="primary">
               Start now
             </Button>
+            <AIDialog />
           </Stack>
           <Typography variant="caption" textAlign="center" sx={{ opacity: 0.8 }}>
             By clicking &quot;Start now&quot; you agree to our&nbsp;

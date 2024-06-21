@@ -14,7 +14,7 @@ import Markdown from 'react-markdown' // For fromatting GenAI response
 // Capitalize the component name to follow React naming conventions
 function InfoCard({ data }) {
     const StyledCard = styled(Card)(({ theme }) => ({
-        backgroundColor: data.model === 'deepseek-coder' ? '#fA2027' : '#fff',
+        backgroundColor: data.model === 'deepseek-coder' ? '#222027' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -23,7 +23,7 @@ function InfoCard({ data }) {
     return (
         <StyledCard sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
                     {data.model}
                 </Typography>
                 <Typography component={'span'} variant="body2">
