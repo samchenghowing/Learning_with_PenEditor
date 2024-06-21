@@ -71,14 +71,14 @@ $ git clone https://github.com/samchenghowing/Learning_with_PenEditor.git
 ## Development
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
 ## Deployment
 
 ```sh
-npm install
+npm ci
 npm run build
 npm install -g serve
 serve -s dist
