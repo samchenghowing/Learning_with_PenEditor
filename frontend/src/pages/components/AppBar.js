@@ -1,35 +1,32 @@
-import React, { useEffect, useCallback, useRef, useState, forwardRef } from 'react';
-import { saveAs } from "file-saver";
+import * as React from 'react';
 
-import AI_Dialog from "../components/AI_Dialog"
-
-import logo from "../editor.png";
+import { saveAs } from "file-saver"
+import logo from "./editor.png";
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import ButtonGroup from '@mui/material/ButtonGroup';
-
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
-import CodeIcon from '@mui/icons-material/Code';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Switch from '@mui/material/Switch';
 
-const PrimaryAppBar = forwardRef(function PrimaryAppBar({
+import AI_Dialog from "./AI_Dialog"
+
+
+const PrimaryAppBar = React.forwardRef(function PrimaryAppBar({
     setEditorMode,
     setAutoRun,
     editorMode,
     autoRun
 }, ref) {
 
-    const onDownload = useCallback(() => {
+    const onDownload = React.useCallback(() => {
         let lib = ``;
         ref.current.lib.map((item) => {
             lib += `<script src="${item}"></script>`;
@@ -96,20 +93,6 @@ const PrimaryAppBar = forwardRef(function PrimaryAppBar({
                             <SaveAsIcon></SaveAsIcon>
                         </IconButton>
                     </Tooltip>
-                    {/* <Tooltip title="Format code">
-                        <IconButton onClick={() => {
-                            onFormat("js");
-                            onFormat("html");
-                            onFormat("css");
-                        }}>
-                            <CodeIcon></CodeIcon>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Run code">
-                        <IconButton name="css" onClick={onRun}>
-                            <PlayArrowIcon></PlayArrowIcon>
-                        </IconButton>
-                    </Tooltip> */}
 
                 </Toolbar>
             </AppBar>

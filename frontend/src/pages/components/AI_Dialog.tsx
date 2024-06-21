@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,8 +13,15 @@ import Markdown from 'react-markdown' // For fromatting GenAI response
 
 // Capitalize the component name to follow React naming conventions
 function InfoCard({ data }) {
+    const StyledCard = styled(Card)(({ theme }) => ({
+        backgroundColor: data.model === 'deepseek-coder' ? '#fA2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        color: theme.palette.text.secondary,
+    }));
+
     return (
-        <Card sx={{ minWidth: 275, marginBottom: 2 }}>
+        <StyledCard sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     {data.model}
@@ -22,21 +30,21 @@ function InfoCard({ data }) {
                     <Markdown>{data.response}</Markdown>
                 </Typography>
             </CardContent>
-        </Card>
+        </StyledCard>
     );
 }
 
 export default function AIDialog() {
-    const [open, setOpen] = useState(false);
-    const [userPrompt, setUserPrompt] = useState("");
-    const [cardContent, setCardContent] = useState([
+    const [open, setOpen] = React.useState(false);
+    const [userPrompt, setUserPrompt] = React.useState("");
+    const [cardContent, setCardContent] = React.useState([
         {
             id: 1,
             model: "deepseek-coder",
             response: "Hi, I am your AI helper, what can I do for you?",
         },
     ]);
-    const cardRef = useRef(null);
+    const cardRef = React.useRef<HTMLDivElement>(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -85,8 +93,9 @@ export default function AIDialog() {
                     "prompt": userPrompt
                 })
             });
-
-            const reader = response.body.getReader();
+            
+            const reader = response.body!.getReader();
+            if (reader == null) console.log("error connection to gen ai")
 
             const readStream = async () => {
                 let { done, value } = await reader.read();
@@ -128,10 +137,9 @@ export default function AIDialog() {
         }
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (cardRef.current != null) cardRef.current.scrollTo(0, cardRef.current.scrollHeight);
     }, [cardContent]);
-
 
 
     return (
