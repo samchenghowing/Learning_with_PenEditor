@@ -1,19 +1,19 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
-import Editor from "./pages/Editor";
+import EditorPage from "./pages/EditorPage";
 import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/LandingPage";
+import HomePage from "./pages/LandingPage";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />,
+        element: <HomePage />,
         errorElement: <ErrorPage />,
     },
     {
         path: "/editor",
-        element: <Editor />,
+        element: <EditorPage />,
         errorElement: <ErrorPage />,
     },
 ]);

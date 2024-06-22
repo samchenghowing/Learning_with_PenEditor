@@ -11,7 +11,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 ### Download DeepSeek-Coder Model
 ```
-ollama pull deepseek-coder
+ollama pull deepseek-coder-v2:16b
 ```
 
 ### Run ollama in background
@@ -22,14 +22,14 @@ ollama serve
 ### (Optional) Edit the [_Modelfile_](Modelfile) and create a blueprint
 https://github.com/ollama/ollama/blob/main/docs/modelfile.md#examples
 ```
-ollama show --modelfile deepseek-coder
+ollama show --modelfile deepseek-coder-v2:16b
 ```
 
 ### Testing after serve
 https://github.com/ollama/ollama/blob/main/docs/api.md
 ```
 curl -X POST http://localhost:11434/api/generate -d '{
-  "model": "deepseek-coder",
+  "model": "deepseek-coder-v2:16b",
   "prompt":"How to print hello world in javascript?"
  }'
 ```

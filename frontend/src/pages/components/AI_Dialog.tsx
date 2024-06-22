@@ -14,7 +14,7 @@ import Markdown from 'react-markdown' // For fromatting GenAI response
 // Capitalize the component name to follow React naming conventions
 function InfoCard({ data }) {
     const StyledCard = styled(Card)(({ theme }) => ({
-        backgroundColor: data.model === 'deepseek-coder' ? '#222027' : '#fff',
+        backgroundColor: data.model === 'deepseek-coder-v2:16b' ? '#222027' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -40,7 +40,7 @@ export default function AIDialog() {
     const [cardContent, setCardContent] = React.useState([
         {
             id: 1,
-            model: "deepseek-coder",
+            model: "deepseek-coder-v2:16b",
             response: "Hi, I am your AI helper, what can I do for you?",
         },
     ]);
@@ -77,7 +77,7 @@ export default function AIDialog() {
             ...prevCardContent,
             {
                 id: newCardId,
-                model: "deepseek-coder",
+                model: "deepseek-coder-v2:16b",
                 response: "", // Start with an empty response
             }
         ]);
@@ -89,11 +89,11 @@ export default function AIDialog() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "model": "deepseek-coder",
+                    "model": "deepseek-coder-v2:16b",
                     "prompt": userPrompt
                 })
             });
-            
+
             const reader = response.body!.getReader();
             if (reader == null) console.log("error connection to gen ai")
 
