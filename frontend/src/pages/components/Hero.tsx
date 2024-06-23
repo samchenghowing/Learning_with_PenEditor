@@ -61,8 +61,8 @@ export default function Hero() {
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
           >
-            With GenAi powered learning platform, you can learn programming in a sec. 
-            Begin now with our latest technology and services.
+            With GenAi powered learning platform, you can learn programming in a sec.
+            Just type below and enter what you want to learn. 
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}

@@ -16,29 +16,34 @@ import Switch from '@mui/material/Switch';
 
 import AI_Dialog from "./AI_Dialog"
 
+interface EditorConfigProps {
+    editorMode : string;
+    setEditorMode : (mode: string) => void;
+    autoRun : boolean;
+    setAutoRun : (autoRun: boolean) => void;
+}
 
-const PrimaryAppBar = React.forwardRef(function PrimaryAppBar({
-    setEditorMode,
-    setAutoRun,
-    editorMode,
-    autoRun
-}, ref) {
+
+const EditorConfig = React.forwardRef(function EditorConfig(props: EditorConfigProps, ref) {
+    const editorMode = props.editorMode;
+    const setEditorMode = props.setEditorMode;
+    const autoRun = props.autoRun;
+    const setAutoRun = props.setAutoRun;
 
     const onDownload = React.useCallback(() => {
         let lib = ``;
-        ref.current.lib.map((item) => {
-            lib += `<script src="${item}"></script>`;
-        });
-        let reset = ``;
-        var html = `
-				<!DOCTYPE html>
-		<html lang="en">
-			<head><style>${reset}</style><style>${ref.current.css.getValue()}</style></head>
-			<body>${ref.current.html.getValue()}${lib}<script type="text/babel" data-presets="react">${ref.current.js.getValue()}</script></body>
-		</html>`;
-
-        var blob = new Blob([html], { type: "text/html; charset=utf-8" });
-        saveAs(blob, `PenEditor-${new Date().getTime()}.html`);
+        // ref.current.lib.map((item) => {
+        //     lib += `<script src="${item}"></script>`;
+        // });
+        // let reset = ``;
+        // var html = `
+		// 		<!DOCTYPE html>
+		// <html lang="en">
+		// 	<head><style>${reset}</style><style>${ref.current.css.getValue()}</style></head>
+		// 	<body>${ref.current.html.getValue()}${lib}<script type="text/babel" data-presets="react">${ref.current.js.getValue()}</script></body>
+		// </html>`;
+        // var blob = new Blob([html], { type: "text/html; charset=utf-8" });
+        // saveAs(blob, `PenEditor-${new Date().getTime()}.html`);
     }, []);
 
     return (
@@ -68,8 +73,8 @@ const PrimaryAppBar = React.forwardRef(function PrimaryAppBar({
                     <Switch
                         checked={autoRun}
                         onChange={(e) => {
-                            ref.current.isAuto = e.currentTarget.checked;
-                            setAutoRun(e.currentTarget.checked);
+                            // ref.current.isAuto = e.currentTarget.checked;
+                            // setAutoRun(e.currentTarget.checked);
                         }} />
 
                     <Tooltip title="Save as html file">
@@ -84,4 +89,4 @@ const PrimaryAppBar = React.forwardRef(function PrimaryAppBar({
     );
 });
 
-export default PrimaryAppBar;
+export default EditorConfig;
