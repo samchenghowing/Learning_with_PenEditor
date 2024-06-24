@@ -16,6 +16,8 @@ export default () => {
 	const [mode, setMode] = React.useState<PaletteMode>('light');
 	const LPtheme = createTheme(getLPTheme(mode));
 
+	const [value, setValue] = React.useState("console.log('hello world!');");
+
 	const toggleColorMode = () => {
 		setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
 	};
@@ -34,7 +36,16 @@ export default () => {
 						<AIChat />
 					</Grid>
 					<Grid xs={8}>
-						<EditorView />
+						<EditorView value={value} onChange={setValue} />
+					</Grid>
+					<Grid xs={12}>
+						<iframe
+							srcDoc={`<html><body><script>${value}</script></body></html>`}
+							title="Preview"
+							width="100%"
+							height="400px"
+							style={{ border: "1px solid #ccc" }}
+						></iframe>
 					</Grid>
 				</Grid>
 			</Stack>
