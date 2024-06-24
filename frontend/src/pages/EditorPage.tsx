@@ -2,11 +2,13 @@ import * as React from 'react';
 import { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import AppAppBar from './components/AppAppBar';
 import getLPTheme from './getLPTheme';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
+import AppAppBar from './components/AppAppBar';
 import AIChat from './components/editor/AIChat'
 import EditorView from './components/editor/EditorView'
 
@@ -21,8 +23,12 @@ export default () => {
 	return (
 		<ThemeProvider theme={LPtheme}>
 			<CssBaseline />
-			<AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-			<Box sx={{ flexGrow: 1 }}>
+			<Stack sx={{ width: '100%' }} spacing={2}>
+				{/* <AppAppBar mode={mode} toggleColorMode={toggleColorMode} /> */}
+				<Alert severity="info">
+					<AlertTitle>Current task</AlertTitle>
+					Print hello world in javascript.
+				</Alert>
 				<Grid container spacing={2}>
 					<Grid xs={4}>
 						<AIChat />
@@ -31,7 +37,7 @@ export default () => {
 						<EditorView />
 					</Grid>
 				</Grid>
-			</Box>
+			</Stack>
 		</ThemeProvider>
 	);
 };

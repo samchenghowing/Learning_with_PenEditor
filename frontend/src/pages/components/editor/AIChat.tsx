@@ -2,11 +2,13 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Markdown from 'react-markdown' // For fromatting GenAI response
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
 const BackgroundPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -26,10 +28,10 @@ function InfoCard({ data }) {
     return (
         <StyledCard sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>
-                <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
+                <Typography sx={{ fontSize: 16 }} color={data.model === 'deepseek-coder-v2:16b' ? '#fff' : '#000'} gutterBottom>
                     {data.model}
                 </Typography>
-                <Typography component={'span'} variant="body2">
+                <Typography color={data.model === 'deepseek-coder-v2:16b' ? '#fff' : '#000'} component={'span'} variant="body2">
                     <Markdown>{data.response}</Markdown>
                 </Typography>
             </CardContent>
@@ -137,7 +139,9 @@ export default function AIDialog() {
 
 
     return (
-        <BackgroundPaper ref={cardRef}>
+        <BackgroundPaper
+            ref={cardRef}
+            sx={{ maxHeight: 500, minHeight: 500, overflow: 'auto' }}>
             {cardContent.map((data) => (
                 <InfoCard key={data.id} data={data} />
             ))}
@@ -150,8 +154,18 @@ export default function AIDialog() {
                 onChange={e => {
                     setUserPrompt(e.target.value)
                 }}
+                onKeyDown={e => {
+                    if (e.key === "Enter") handleClickSubmit();
+                }}
+                InputProps={{
+                    endAdornment:
+                        <InputAdornment position="end">
+                            <IconButton edge="end" color="primary" onClick={handleClickSubmit}>
+                                <SearchIcon />
+                            </IconButton>
+                        </InputAdornment>
+                }}
             />
-            <Button onClick={handleClickSubmit}>Ask</Button>
         </BackgroundPaper>
     );
 }

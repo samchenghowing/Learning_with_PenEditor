@@ -2,8 +2,6 @@ import * as React from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 
-// https://stackoverflow.com/questions/5379120/get-the-highlighted-selected-text
-
 export default function EditorView() {
     const [editorMode, setEditorMode] = React.useState("js");
     const [autoRun, setAutoRun] = React.useState(false);
@@ -13,7 +11,7 @@ export default function EditorView() {
         console.log('val:', val);
         setValue(val);
 
-        let iframe = document.getElementById("preview");
+        // let iframe = document.getElementById("preview");
         // iframe.contentWindow.location.reload(true);
     }, []);
 
