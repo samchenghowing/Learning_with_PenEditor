@@ -7,7 +7,6 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import AIDialog from './AI_Dialog';
 
 export default function Hero() {
   return (
@@ -86,7 +85,6 @@ export default function Hero() {
             <Button variant="contained" color="primary">
               Start now
             </Button>
-            <AIDialog />
           </Stack>
           <Typography variant="caption" textAlign="center" sx={{ opacity: 0.8 }}>
             By clicking &quot;Start now&quot; you agree to our&nbsp;

@@ -14,7 +14,6 @@ import JavascriptIcon from '@mui/icons-material/Javascript';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import Switch from '@mui/material/Switch';
 
-import AI_Dialog from "./AI_Dialog"
 
 interface EditorConfigProps {
     editorMode : string;
@@ -50,7 +49,6 @@ const EditorConfig = React.forwardRef(function EditorConfig(props: EditorConfigP
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <AI_Dialog />
 
                     <ButtonGroup aria-label="Basic button group">
                         <Tooltip title="JS Editor">

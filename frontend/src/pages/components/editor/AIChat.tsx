@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Markdown from 'react-markdown' // For fromatting GenAI response
 
-// Capitalize the component name to follow React naming conventions
+const BackgroundPaper = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    color: theme.palette.text.secondary,
+}));
+
 function InfoCard({ data }) {
     const StyledCard = styled(Card)(({ theme }) => ({
-        backgroundColor: data.model === 'deepseek-coder-v2:16b' ? '#222027' : '#fff',
+        backgroundColor: data.model === 'deepseek-coder-v2:16b' ? '#3f50b5' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -35,7 +38,6 @@ function InfoCard({ data }) {
 }
 
 export default function AIDialog() {
-    const [open, setOpen] = React.useState(false);
     const [userPrompt, setUserPrompt] = React.useState("");
     const [cardContent, setCardContent] = React.useState([
         {
@@ -45,14 +47,6 @@ export default function AIDialog() {
         },
     ]);
     const cardRef = React.useRef<HTMLDivElement>(null);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleClickSubmit = () => {
         if (userPrompt.trim()) { // Check if the prompt is not empty
@@ -143,41 +137,21 @@ export default function AIDialog() {
 
 
     return (
-        <React.Fragment>
-            <Button color="inherit" onClick={handleClickOpen}>
-                Open AI dialog
-            </Button>
-
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="AI-dialog">
-                <DialogTitle style={{ cursor: 'move' }} id="AI-dialog-title">
-                    AI helper
-                </DialogTitle>
-                <DialogContent ref={cardRef}>
-                    {/* Map over the cardContent state to render InfoCard components */}
-                    {cardContent.map((data) => (
-                        <InfoCard key={data.id} data={data} />
-                    ))}
-                    <TextField
-                        fullWidth
-                        multiline
-                        id="user-prompt"
-                        placeholder="How to print hello world in javascript?"
-                        value={userPrompt}
-                        onChange={e => {
-                            setUserPrompt(e.target.value)
-                        }}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClickSubmit}>Ask</Button>
-                </DialogActions>
-            </Dialog>
-        </React.Fragment>
+        <BackgroundPaper ref={cardRef}>
+            {cardContent.map((data) => (
+                <InfoCard key={data.id} data={data} />
+            ))}
+            <TextField
+                fullWidth
+                multiline
+                id="user-prompt"
+                placeholder="How to print hello world in javascript?"
+                value={userPrompt}
+                onChange={e => {
+                    setUserPrompt(e.target.value)
+                }}
+            />
+            <Button onClick={handleClickSubmit}>Ask</Button>
+        </BackgroundPaper>
     );
 }
