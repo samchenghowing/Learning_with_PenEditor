@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { PaletteMode } from '@mui/material';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -141,8 +142,8 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                 color="primary"
                 variant="text"
                 size="small"
-                component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
+                component={Link}
+                to="/signin"
                 target="_blank"
               >
                 Sign in
@@ -151,8 +152,8 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                 color="primary"
                 variant="contained"
                 size="small"
-                component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
+                component={Link}
+                to="/signup"
                 target="_blank"
               >
                 Sign up
@@ -205,8 +206,8 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                     <Button
                       color="primary"
                       variant="contained"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-up/"
+                      component={Link}
+                      to="/signup"
                       target="_blank"
                       sx={{ width: '100%' }}
                     >
@@ -217,8 +218,8 @@ function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                     <Button
                       color="primary"
                       variant="outlined"
-                      component="a"
-                      href="/material-ui/getting-started/templates/sign-in/"
+                      component={Link}
+                      to="/signin"
                       target="_blank"
                       sx={{ width: '100%' }}
                     >
