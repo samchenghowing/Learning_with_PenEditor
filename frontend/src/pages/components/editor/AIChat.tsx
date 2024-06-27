@@ -4,11 +4,13 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Markdown from 'react-markdown' // For fromatting GenAI response
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
 
 const BackgroundPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -35,6 +37,9 @@ function InfoCard({ data }) {
                     <Markdown>{data.content}</Markdown>
                 </Typography>
             </CardContent>
+            <CardActions>
+                <Button variant="contained">Take this task!</Button>
+            </CardActions>
         </StyledCard>
     );
 }
@@ -49,12 +54,12 @@ function InfoCard({ data }) {
 // https://github.com/ollama/ollama/blob/main/docs/api.md#request-json-mode
 
 interface AIChatProps {
-    question : string;
-    setQuestion : (mode: string) => void;
-    task : string;
-    setTask : (mode: string) => void;
-    solution : string;
-    setSolution : (mode: string) => void;
+    question: string;
+    setQuestion: (mode: string) => void;
+    task: string;
+    setTask: (mode: string) => void;
+    solution: string;
+    setSolution: (mode: string) => void;
 }
 
 export default function AIChat(props: AIChatProps) {
@@ -176,7 +181,7 @@ export default function AIChat(props: AIChatProps) {
                     endAdornment:
                         <InputAdornment position="end">
                             <IconButton edge="end" color="primary" onClick={handleClickSubmit}>
-                                <SearchIcon />
+                                <SendIcon />
                             </IconButton>
                         </InputAdornment>
                 }}
