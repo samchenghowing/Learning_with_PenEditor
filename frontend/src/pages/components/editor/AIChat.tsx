@@ -39,7 +39,25 @@ function InfoCard({ data }) {
     );
 }
 
-export default function AIDialog() {
+// Better add in backend?
+// TODO: respnose json 
+// {
+//     question: "Fix the problem below such that it will output \"hello world\" in console.",
+//     task: "console.log'hello world!';",
+//     solution: "console.log('hello world!');",
+// },
+// https://github.com/ollama/ollama/blob/main/docs/api.md#request-json-mode
+
+interface AIChatProps {
+    question : string;
+    setQuestion : (mode: string) => void;
+    task : string;
+    setTask : (mode: string) => void;
+    solution : string;
+    setSolution : (mode: string) => void;
+}
+
+export default function AIChat(props: AIChatProps) {
     const [userPrompt, setUserPrompt] = React.useState("");
     const [cardContent, setCardContent] = React.useState([
         {
