@@ -19,7 +19,7 @@ const BackgroundPaper = styled(Paper)(({ theme }) => ({
 
 function InfoCard({ data }) {
     const StyledCard = styled(Card)(({ theme }) => ({
-        backgroundColor: data.model === 'deepseek-coder-v2:16b' ? '#3f50b5' : '#fff',
+        backgroundColor: data.role === 'assistant' ? '#3f50b5' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -28,11 +28,11 @@ function InfoCard({ data }) {
     return (
         <StyledCard sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>
-                <Typography sx={{ fontSize: 16 }} color={data.model === 'deepseek-coder-v2:16b' ? '#fff' : '#000'} gutterBottom>
-                    {data.model}
+                <Typography sx={{ fontSize: 16 }} color={data.role === 'assistant' ? '#fff' : '#000'} gutterBottom>
+                    {data.role}
                 </Typography>
-                <Typography color={data.model === 'deepseek-coder-v2:16b' ? '#fff' : '#000'} component={'span'} variant="body2">
-                    <Markdown>{data.response}</Markdown>
+                <Typography noWrap color={data.role === 'assistant' ? '#fff' : '#000'} component={'span'} variant="body2">
+                    <Markdown>{data.content}</Markdown>
                 </Typography>
             </CardContent>
         </StyledCard>
@@ -44,92 +44,89 @@ export default function AIDialog() {
     const [cardContent, setCardContent] = React.useState([
         {
             id: 1,
-            model: "deepseek-coder-v2:16b",
-            response: "Hi, I am your AI helper, what can I do for you?",
+            role: "assistant",
+            content: "Hi, I am your AI helper, what can I do for you?",
         },
     ]);
     const cardRef = React.useRef<HTMLDivElement>(null);
 
-    const handleClickSubmit = () => {
+    const handleClickSubmit = async () => {
         if (userPrompt.trim()) { // Check if the prompt is not empty
             const newCardId = Date.now();
             setCardContent(prevCardContent => [
                 ...prevCardContent,
                 {
                     id: newCardId,
-                    model: "User",
-                    response: userPrompt, // Start with an empty response
+                    role: "user",
+                    content: userPrompt,
+                },
+                {
+                    id: newCardId + 1,
+                    role: "assistant",
+                    content: "",
                 }
             ]);
-            fetchData(userPrompt);
             setUserPrompt(""); // Clear the input field
-        }
-    };
 
-    const fetchData = async (userPrompt) => {
-        // Create a new card with an initial response for the user prompt
-        const newCardId = Date.now() + 1; // Using timestamp as a unique ID for simplicity
-        setCardContent(prevCardContent => [
-            ...prevCardContent,
-            {
-                id: newCardId,
-                model: "deepseek-coder-v2:16b",
-                response: "", // Start with an empty response
-            }
-        ]);
-
-        try {
-            const response = await fetch('api/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "model": "deepseek-coder-v2:16b",
-                    "prompt": userPrompt
-                })
+            // cardContent is not updated here since useState is async
+            // console.log(cardContent);
+            var messages = cardContent.map(({ role, content }) => {
+                let doc = { role, content };
+                return doc;
             });
+            messages.push({ role: "user", content: userPrompt })
+            console.log(messages)
 
-            const reader = response.body!.getReader();
-            if (reader == null) console.log("error connection to gen ai")
-
-            const readStream = async () => {
-                let { done, value } = await reader.read();
-                if (done) {
-                    console.log('Stream complete');
-                    return;
-                }
-
-                // Decode the stream chunk to a string
-                const chunk = new TextDecoder('utf-8').decode(value);
-                // Split the chunk by newlines, as each JSON object ends with a newline
-                const jsonStrings = chunk.split('\n').filter(Boolean);
-
-                jsonStrings.forEach(jsonString => {
-                    try {
-                        const jsonChunk = JSON.parse(jsonString);
-                        console.log(jsonChunk);
-                        // Update the response of the new card with the received chunk
-                        setCardContent(prevCardContent => prevCardContent.map(card => {
-                            if (card.id === newCardId) {
-                                return { ...card, response: card.response + jsonChunk.response };
-                            }
-                            return card;
-                        }));
-                    } catch (error) {
-                        console.error('Error parsing JSON chunk', error);
-                    }
+            try {
+                const response = await fetch('api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "model": "deepseek-coder-v2:16b",
+                        "messages": messages
+                    })
                 });
 
-                // Read the next chunk
+                const reader = response.body!.getReader();
+                if (reader == null) console.log("error connection to gen ai")
+
+                const readStream = async () => {
+                    let { done, value } = await reader.read();
+                    if (done) {
+                        console.log('Stream complete');
+                        return;
+                    }
+
+                    // Decode the stream chunk to a string
+                    const chunk = new TextDecoder('utf-8').decode(value);
+                    // Split the chunk by newlines, as each JSON object ends with a newline
+                    const jsonStrings = chunk.split('\n').filter(Boolean);
+
+                    jsonStrings.forEach(jsonString => {
+                        try {
+                            const jsonChunk = JSON.parse(jsonString);
+                            console.log(jsonChunk);
+                            // Update the content of the new card with the received chunk
+                            setCardContent(prevCardContent => prevCardContent.map(card => {
+                                if (card.id === newCardId + 1) {
+                                    return { ...card, content: card.content + jsonChunk.message.content };
+                                }
+                                return card;
+                            }));
+                        } catch (error) {
+                            console.error('Error parsing JSON chunk', error);
+                        }
+                    });
+                    // Read the next chunk
+                    readStream();
+                };
+                // Start reading the stream
                 readStream();
-            };
-
-            // Start reading the stream
-            readStream();
-
-        } catch (error) {
-            console.error('There was an error!', error);
+            } catch (error) {
+                console.error('There was an error!', error);
+            }
         }
     };
 
