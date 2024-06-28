@@ -7,14 +7,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import HtmlIcon from '@mui/icons-material/Html';
 import CssIcon from '@mui/icons-material/Css';
 import JavascriptIcon from '@mui/icons-material/Javascript';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import Switch from '@mui/material/Switch';
-import { Divider } from '@mui/material';
 
 
 interface EditorConfigProps {
@@ -27,6 +27,14 @@ interface EditorConfigProps {
 }
 
 const EditorConfig = React.forwardRef(function EditorConfig(props: EditorConfigProps, ref) {
+    const [alignment, setAlignment] = React.useState<string | null>('js');
+
+    const handleAlignment = (
+        event: React.MouseEvent<HTMLElement>,
+        newAlignment: string | null,
+    ) => {
+        setAlignment(newAlignment);
+    };
 
     const onDownload = React.useCallback(() => {
         let lib = ``;
@@ -49,29 +57,34 @@ const EditorConfig = React.forwardRef(function EditorConfig(props: EditorConfigP
             <AppBar position="static">
                 <Toolbar>
 
-                    <ButtonGroup aria-label="Basic button group">
+                    <ToggleButtonGroup
+                        value={alignment}
+                        exclusive
+                        onChange={handleAlignment}
+                        aria-label="text alignment"
+                    >
                         <Tooltip title="JS Editor">
-                            <IconButton color={props.editorMode == "js" ? "inherit" : "default"} onClick={() => props.setEditorMode("js")}>
+                            <ToggleButton value="js" onClick={() => props.setEditorMode("js")}>
                                 <JavascriptIcon />
-                            </IconButton>
+                            </ToggleButton>
                         </Tooltip>
                         <Tooltip title="Html Editor">
-                            <IconButton color={props.editorMode == "html" ? "inherit" : "default"} onClick={() => props.setEditorMode("html")}>
+                            <ToggleButton value="html" onClick={() => props.setEditorMode("html")}>
                                 <HtmlIcon />
-                            </IconButton>
+                            </ToggleButton>
                         </Tooltip>
                         <Tooltip title="Css Editor">
-                            <IconButton color={props.editorMode == "css" ? "inherit" : "default"} onClick={() => props.setEditorMode("css")}>
+                            <ToggleButton value="css" onClick={() => props.setEditorMode("css")}>
                                 <CssIcon />
-                            </IconButton>
+                            </ToggleButton>
                         </Tooltip>
-                        <Divider />
-                        <Tooltip title="Submit">
-                            <IconButton color="inherit" onClick={props.handleCodeSubmit}>
-                                <TaskAltIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </ButtonGroup>
+                    </ToggleButtonGroup>
+
+                    <Tooltip title="Submit">
+                        <IconButton color="inherit" onClick={props.handleCodeSubmit}>
+                            <TaskAltIcon />
+                        </IconButton>
+                    </Tooltip>
 
                     {/* <Switch
                         checked={autoRun}
