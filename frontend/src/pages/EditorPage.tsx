@@ -24,16 +24,27 @@ export default () => {
 	// code editor
 	const [editorMode, setEditorMode] = React.useState("js");
 	const [autoRun, setAutoRun] = React.useState(false);
-	const [value, setValue] = React.useState("console.log('hello world!');");
+	const [value, setValue] = React.useState("console.log('You can learn anything');");
 
 	// AIChat, TODO: generate the question, task and solution by AIChat
 	// Motivation:
 	// Instead of asking GenAI to craft a possibliy incorrect question, or 
 	// if we can't guarntee the correctness of solution from GenAI, why don't 
 	// we create a wrong question and it's corresponing accepted answer pair? 
-	const [question, setQuestion] = React.useState("Fix the problem below such that it will output \"hello world\" in console.");
-	const [task, setTask] = React.useState("console.log'hello world!';"); //TODO: task should be written to EditorView
-	const [solution, setSolution] = React.useState("console.log('hello world!');");
+	const [question, setQuestion] = React.useState("No question assigned yet... Chat with AI to get your tailored task!");
+	const [task, setTask] = React.useState("Goodbye world");
+	const [solution, setSolution] = React.useState("Hello world!");
+
+
+	function handleCodeSubmit() {
+		console.log('Function ran in EditorConfig');
+		// TODO: show loading and send to AI for verification (test cases??)
+	}
+
+	function handleTaskAccepted() {
+		console.log('Function ran in AIChat');
+		setValue(task); // update code in EditorView
+	}
 
 	return (
 		<ThemeProvider theme={LPtheme}>
@@ -48,19 +59,25 @@ export default () => {
 					<Grid xs={4}>
 						<AIChat
 							question={question}
-							setQuestion={setQuestion} 
+							setQuestion={setQuestion}
 							task={task}
-							setTask={setTask} 
-							solution={solution} 
-							setSolution={setSolution} />
+							setTask={setTask}
+							solution={solution}
+							setSolution={setSolution}
+							handleTaskAccepted={handleTaskAccepted} />
 					</Grid>
 					<Grid xs={8}>
 						<EditorConfig
 							editorMode={editorMode}
 							setEditorMode={setEditorMode}
 							autoRun={autoRun}
-							setAutoRun={setAutoRun} />
-						<EditorView value={value} onChange={setValue} />
+							setAutoRun={setAutoRun}
+							handleCodeSubmit={handleCodeSubmit} />
+						<EditorView
+							value={value}
+							onChange={setValue}
+							editorMode={''}
+							autoRun={false} />
 					</Grid>
 					<Grid xs={12}>
 						{/* <iframe

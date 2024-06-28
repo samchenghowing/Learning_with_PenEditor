@@ -19,9 +19,9 @@ const BackgroundPaper = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-function InfoCard({ data }) {
+function InfoCard({ data, AIChatprops }) {
     const StyledCard = styled(Card)(({ theme }) => ({
-        backgroundColor: data.role === 'assistant' ? '#3f50b5' : '#fff',
+        backgroundColor: data.role === 'user' ? '#3f50b5' : '#fff',
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
@@ -30,22 +30,37 @@ function InfoCard({ data }) {
     return (
         <StyledCard sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>
-                <Typography sx={{ fontSize: 16 }} color={data.role === 'assistant' ? '#fff' : '#000'} gutterBottom>
+                <Typography sx={{ fontSize: 14 }} color={data.role === 'user' ? '#fff' : '#000'} gutterBottom>
                     {data.role}
                 </Typography>
-                <Typography noWrap color={data.role === 'assistant' ? '#fff' : '#000'} component={'span'} variant="body2">
+                <Typography noWrap color={data.role === 'user' ? '#fff' : '#000'} component={'span'} variant="h5">
                     <Markdown>{data.content}</Markdown>
                 </Typography>
+                <Typography sx={{ mb: 1.5 }} color={data.role === 'user' ? '#fff' : '#000'}>
+                    {data.question}
+                </Typography>
+                <Typography variant="body2">
+                    {data.task}
+                </Typography>
+
             </CardContent>
             <CardActions>
-                <Button variant="contained">Take this task!</Button>
+                <Button size="large" onClick={() => {
+                    // TODO: get below from formatted response from AI
+                    AIChatprops.setQuestion(data.question);
+                    AIChatprops.setTask(data.task);
+                    AIChatprops.setSolution(data.solution);
+                    AIChatprops.handleTaskAccepted();
+                }}>
+                    Take this task!
+                </Button>
             </CardActions>
         </StyledCard>
     );
 }
 
 // Better add in backend?
-// TODO: respnose json 
+// TODO: formatted response json from AI  
 // {
 //     question: "Fix the problem below such that it will output \"hello world\" in console.",
 //     task: "console.log'hello world!';",
@@ -60,6 +75,8 @@ interface AIChatProps {
     setTask: (mode: string) => void;
     solution: string;
     setSolution: (mode: string) => void;
+
+    handleTaskAccepted: () => void;
 }
 
 export default function AIChat(props: AIChatProps) {
@@ -68,12 +85,15 @@ export default function AIChat(props: AIChatProps) {
         {
             id: 1,
             role: "assistant",
-            content: "Hi, I am your AI helper, what can I do for you?",
+            content: "Challenger! I prepared the following task for thou! Lets' see if you can fix it!",
+            question: "Fix the problem below such that it will output \"hello world\" in console.",
+            task: "console.log'hello world!",
+            solution: "console.log('hello world!');"
         },
     ]);
     const cardRef = React.useRef<HTMLDivElement>(null);
 
-    const handleClickSubmit = async () => {
+    const handleClick = async () => {
         if (userPrompt.trim()) { // Check if the prompt is not empty
             const newCardId = Date.now();
             setCardContent(prevCardContent => [
@@ -82,11 +102,18 @@ export default function AIChat(props: AIChatProps) {
                     id: newCardId,
                     role: "user",
                     content: userPrompt,
+                    question: "",
+                    task: "",
+                    solution: ""
                 },
                 {
                     id: newCardId + 1,
                     role: "assistant",
                     content: "",
+                    // TODO: get below from formatted response from AI
+                    question: "",
+                    task: "",
+                    solution: ""
                 }
             ]);
             setUserPrompt(""); // Clear the input field
@@ -134,7 +161,14 @@ export default function AIChat(props: AIChatProps) {
                             // Update the content of the new card with the received chunk
                             setCardContent(prevCardContent => prevCardContent.map(card => {
                                 if (card.id === newCardId + 1) {
-                                    return { ...card, content: card.content + jsonChunk.message.content };
+                                    return {
+                                        ...card,
+                                        content: card.content + jsonChunk.message.content,
+                                        // TODO: get below from formatted response from AI
+                                        question: "Fix the problem below such that it will output \"hello world\" in console.",
+                                        task: "console.log'hello world!",
+                                        solution: "console.log('hello world!');"
+                                    };
                                 }
                                 return card;
                             }));
@@ -163,7 +197,7 @@ export default function AIChat(props: AIChatProps) {
             ref={cardRef}
             sx={{ maxHeight: 500, minHeight: 500, overflow: 'auto' }}>
             {cardContent.map((data) => (
-                <InfoCard key={data.id} data={data} />
+                <InfoCard key={data.id} data={data} AIChatprops={props} />
             ))}
             <TextField
                 fullWidth
@@ -175,12 +209,12 @@ export default function AIChat(props: AIChatProps) {
                     setUserPrompt(e.target.value)
                 }}
                 onKeyDown={e => {
-                    if (e.key === "Enter") handleClickSubmit();
+                    if (e.key === "Enter") handleClick();
                 }}
                 InputProps={{
                     endAdornment:
                         <InputAdornment position="end">
-                            <IconButton edge="end" color="primary" onClick={handleClickSubmit}>
+                            <IconButton edge="end" color="primary" onClick={handleClick}>
                                 <SendIcon />
                             </IconButton>
                         </InputAdornment>
