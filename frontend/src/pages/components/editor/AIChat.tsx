@@ -25,6 +25,7 @@ function InfoCard({ data, AIChatprops }) {
         ...theme.typography.body2,
         padding: theme.spacing(1),
         color: theme.palette.text.secondary,
+        whiteSpace: 'pre-wrap', // Add this line
     }));
 
     return (
@@ -33,7 +34,7 @@ function InfoCard({ data, AIChatprops }) {
                 <Typography sx={{ fontSize: 14 }} color={data.role === 'user' ? '#fff' : '#000'} gutterBottom>
                     {data.role}
                 </Typography>
-                <Typography noWrap color={data.role === 'user' ? '#fff' : '#000'} component={'span'} variant="h5">
+                <Typography color={data.role === 'user' ? '#fff' : '#000'} component={'span'} variant="h5">
                     <Markdown>{data.content}</Markdown>
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color={data.role === 'user' ? '#fff' : '#000'}>
@@ -46,7 +47,7 @@ function InfoCard({ data, AIChatprops }) {
             </CardContent>
             <CardActions>
                 <Button size="large" onClick={() => {
-                    // TODO: get below from formatted response from AI
+                    // TODO: get below from formatted response from ollama
                     AIChatprops.setQuestion(data.question);
                     AIChatprops.setTask(data.task);
                     AIChatprops.setSolution(data.solution);
